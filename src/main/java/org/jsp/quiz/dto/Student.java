@@ -39,4 +39,6 @@ public class Student {
 	private String gender;
 	@Lob
 	private byte[] picture;
+	private int otp;
+	private boolean verified;
 }

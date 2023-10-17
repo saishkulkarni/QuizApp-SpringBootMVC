@@ -26,7 +26,7 @@
             </table>
         </form>
         <a href="#">Forgot Password?</a> <br>
-        <a href="/student/signup"><button>Create New Account</button></a> <br> <br>
+        <a href="/student/signup"><button>Create New Account</button></a>
         <a href="/"><button>Back</button></a>
     </div>
 </body>
