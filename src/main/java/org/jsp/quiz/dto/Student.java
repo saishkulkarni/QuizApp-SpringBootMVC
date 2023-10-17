@@ -2,6 +2,7 @@ package org.jsp.quiz.dto;
 
 import org.springframework.stereotype.Component;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,6 +39,7 @@ public class Student {
 	@NotEmpty(message = "*This Field Can not be Empty")
 	private String gender;
 	@Lob
+	@Column(columnDefinition = "MEDIUMBLOB")
 	private byte[] picture;
 	private int otp;
 	private boolean verified;

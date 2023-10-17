@@ -39,11 +39,12 @@ public class StudentController {
 	}
 
 	@PostMapping("/signup")
-	public String signup(@Valid Student student, @RequestParam MultipartFile pic, BindingResult result, ModelMap map) throws IOException, MessagingException {
+	public String signup(@Valid Student student, BindingResult result, @RequestParam MultipartFile pic, ModelMap map)
+			throws IOException, MessagingException {
 		if (result.hasErrors()) {
 			return "StudentSignup";
 		} else {
-			return studentService.signup(student,pic,map);
+			return studentService.signup(student, pic, map);
 		}
 	}
 }

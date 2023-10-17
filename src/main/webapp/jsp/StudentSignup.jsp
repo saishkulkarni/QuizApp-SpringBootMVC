@@ -64,6 +64,8 @@ input[type="radio"] {
 <body>
 	<h1>Student signup page</h1>
 	<h3>Enter details</h3>
+	<h2 style="color: green">${pass}</h2>
+	<h3 style="color: red">${fail}</h3>
 	<mvc:form action="/student/signup" method="post"
 		modelAttribute="student" enctype="multipart/form-data">
 		<table>
