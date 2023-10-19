@@ -17,10 +17,10 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-@Entity
 @Data
+@Entity
 @Component
-public class Student {
+public class Trainer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -38,10 +38,12 @@ public class Student {
 	private String password;
 	@NotEmpty(message = "*This Field Can not be Empty")
 	private String gender;
+	private String subject;
 	@Lob
 	@Column(columnDefinition = "MEDIUMBLOB")
 	private byte[] picture;
-	private int otp;
+	private String token;
 	private boolean verified;
+	public String eid;
 	private boolean approved;
 }

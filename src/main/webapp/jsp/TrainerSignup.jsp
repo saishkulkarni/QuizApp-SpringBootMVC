@@ -66,11 +66,11 @@ input[type="radio"] {
 </style>
 </head>
 <body>
-	<h1>Student Signup page</h1>
+	<h1>Trainer Signup page</h1>
 	<h2 style="color: green">${pass}</h2>
 	<h3 style="color: red">${fail}</h3>
-	<mvc:form action="/student/signup" method="post"
-		modelAttribute="student" enctype="multipart/form-data">
+	<mvc:form action="/trainer/signup" method="post"
+		modelAttribute="trainer" enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td><label for="name">Name:</label></td>
@@ -91,6 +91,15 @@ input[type="radio"] {
 				<td><label for="password">Password:</label></td>
 				<td><mvc:password path="password" /></td>
 				<td><mvc:errors path="password" /></td>
+			</tr>
+			<tr>
+				<td><label for="subject">Subject:</label></td>
+				<td><mvc:input path="subject" /></td>
+				<td><mvc:errors path="subject" /></td>
+			</tr>
+			<tr>
+				<td><label for="eid">Employee Id:</label></td>
+				<td><mvc:input path="eid" /></td>
 			</tr>
 			<tr>
 				<td><label for="gender">Gender:</label></td>

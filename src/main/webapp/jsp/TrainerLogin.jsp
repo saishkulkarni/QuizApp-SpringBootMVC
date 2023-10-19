@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Student Login</title>
+<title>Trainer Login</title>
 <link rel="stylesheet" href="../css/index.css">
 <style>
 body, h1, h2, h3, p {
@@ -93,7 +93,7 @@ a {
 </style>
 </head>
 <body>
-<h1>Welcome to Student Login Page</h1>
+<h1>Welcome to Trainer Login Page</h1>
 <h2>${pass}</h2>
 <h3>${fail}</h3>
 <div id="login">
@@ -113,7 +113,7 @@ a {
         </tr>
     </table>
 </form>
-<a href="#">Forgot Password?</a><br><br><a href="/student/signup"><button>Create New Account</button></a> <a href="/"><button>Back</button></a>
+<a href="#">Forgot Password?</a><br><br><a href="/trainer/signup"><button>Create New Account</button></a> <a href="/"><button>Back</button></a>
 </div>
 
 <script>
