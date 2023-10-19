@@ -1,6 +1,7 @@
 package org.jsp.quiz.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import org.jsp.quiz.dto.Student;
 import org.jsp.quiz.service.StudentService;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,5 +48,15 @@ public class StudentController {
 		} else {
 			return studentService.signup(student, pic, map);
 		}
+	}
+
+	@PostMapping("/verify-otp")
+	public String verifyOtp(@RequestParam int id, @RequestParam int otp, ModelMap map) {
+		return studentService.verifyOtp(id, otp, map);
+	}
+
+	@GetMapping("/resend-otp/{id}")
+	public String resendOtp(@PathVariable int id, ModelMap map) throws UnsupportedEncodingException, MessagingException {
+		return studentService.resendOtp(id, map);
 	}
 }

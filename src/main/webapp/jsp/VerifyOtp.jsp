@@ -7,8 +7,15 @@
 <title>Enter OTP</title>
 </head>
 <body>
-	<h2 style="color: green">${pass}</h2>
-	<h3 style="color: red">${fail}</h3>
-	${id}
+	<h2>${pass}</h2>
+	<h3>${fail}</h3>
+	<form action="/student/verify-otp" method="post">
+	<input type="text" name="id" value="${id}" hidden="hidden">
+	Enter OTP:<input type="number" name="otp">
+	<button>Submit</button>
+		<button type="reset">Cancel</button>
+	</form>
+	<br>
+	<a href="/student/resend-otp/${id}"><button>Resend Otp</button></a>
 </body>
 </html>

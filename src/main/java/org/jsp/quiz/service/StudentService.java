@@ -1,6 +1,7 @@
 package org.jsp.quiz.service;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
 import org.jsp.quiz.dao.StudentDao;
@@ -28,7 +29,7 @@ public class StudentService {
 		Student student2 = studentDao.findByMobile(student.getMobile());
 		// Checking if Email and Mobile Already Exists
 		if (student1 == null && student2 == null) {
-			//Logic for encrypting password
+			// Logic for encrypting password
 			student.setPassword(AES.encrypt(student.getPassword(), "123"));
 			// Logic for converting multipartfile to byte[]
 			byte[] picture = new byte[pic.getInputStream().available()];
@@ -68,6 +69,40 @@ public class StudentService {
 					return "StudentSignup";
 				}
 			}
+		}
+	}
+
+	public String verifyOtp(int id, int otp, ModelMap map) {
+		Student student = studentDao.findById(id);
+		if (student == null) {
+			map.put("fail", "Something went wrong");
+			return "index";
+		} else {
+			if (student.getOtp() == otp) {
+				student.setVerified(true);
+				studentDao.save(student);
+				map.put("pass", "Otp verified Success Account Created");
+				return "StudentLogin";
+			} else {
+				map.put("fail", "OTP Missmatch, Try Again");
+				map.put("id", student.getId());
+				return "VerifyOtp";
+			}
+		}
+	}
+
+	public String resendOtp(int id, ModelMap map) throws UnsupportedEncodingException, MessagingException {
+		Student student = studentDao.findById(id);
+		if (student == null) {
+			map.put("fail", "Something went wrong");
+			return "index";
+		} else {
+			student.setOtp(new Random().nextInt(100000, 999999));
+			mailLogic.sendMail(student);
+			studentDao.save(student);
+			map.put("id", student.getId());
+			map.put("pass", "OTP Resent Success");
+			return "VerifyOtp";
 		}
 	}
 

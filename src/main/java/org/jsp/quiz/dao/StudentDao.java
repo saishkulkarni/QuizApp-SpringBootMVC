@@ -23,4 +23,8 @@ public class StudentDao {
 		return studentRepository.findByMobile(mobile);
 	}
 
+	public Student findById(int id) {
+		return studentRepository.findById(id).orElse(null);
+	}
+
 }

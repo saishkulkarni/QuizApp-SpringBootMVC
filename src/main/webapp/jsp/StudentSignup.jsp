@@ -104,6 +104,9 @@ input[type="radio"] {
 				<td><button type="reset">Cancel</button></td>
 			</tr>
 		</table>
+		<a href="/" ><button>Back</button></a>
 	</mvc:form>
+	<br>
+	
 </body>
 </html>
