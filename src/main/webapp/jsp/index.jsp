@@ -7,69 +7,102 @@
 <title>Home</title>
 <style>
 body {
-	font-family: Arial, sans-serif;
-	background-color: #f2f2f2;
 	margin: 0;
 	padding: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 	background-image: url("../images/bg1.jpg");
+	background-size: cover;
 }
 
-div {
-	margin-top: 100px;
-	justify-content: center;
-	align-items: center;
+.container {
+	max-width: 1000px;
+	margin: 0 auto;
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-h3 {
-	color: red;
-	font-size: 24px;
-	margin: 10px 0;
+header {
+	text-align: center;
+	text-transform: uppercase;
+	margin-bottom: 20px;
+}
+
+h1 {
+	font-size: 48px;
+	color: #333;
 }
 
 h2 {
+	font-size: 30px;
 	color: green;
-	font-size: 24px;
 	margin: 10px 0;
-	color: green;
 }
 
-a {
-	text-decoration: none;
+h3 {
+	font-size: 30px;
+	color: red;
+	margin: 10px 0;
 }
 
-a button {
-	display: inline-block;
-	background-color: #007BFF;
-	color: #fff;
-	border: none;
-	padding: 15px 30px;
-	margin: 10px;
-	border-radius: 5px;
-	cursor: pointer;
-	transition: background-color 0.3s;
-	font-size: 18px; /* Adjust the font size */
+main {
 	text-align: center;
-	text-transform: uppercase; /* Uppercase text */
-	font-weight: bold;
-	letter-spacing: 1px;
 }
 
-a button:hover {
-	background-color: #0056b3;
+.buttons {
+	margin: 20px 0;
+}
+
+.button {
+	font-family: "Open Sans", sans-serif;
+	font-size: 20px;
+	letter-spacing: 2px;
+	color: #000;
+	padding: 0.35em 0.8em;
+	box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px
+		0px 0px, 5px 5px 0px 0px;
+	position: relative;
+	user-select: none;
+	-webkit-user-select: none;
+	touch-action: manipulation;
+	text-decoration: none;
+	text-transform: uppercase;
+	cursor: pointer;
+	border: 5px solid;
+	padding: 0.35em 0.8em;
+	color: #000;
+	padding: 0.35em 0.8em;
+}
+
+.button:active {
+	box-shadow: 0px 0px 0px 0px;
+	top: 5px;
+	left: 5px;
+}
+
+@media ( min-width : 768px) {
+	.button {
+		padding: 0.3em 0.9em;
+	}
 }
 </style>
+
 </head>
 <body>
-	<h2>${pass}</h2>
-	<h3>${fail}</h3>
-	<div>
-		<a href="/student/login"><button>Student</button></a> <a
-			href="/trainer/login"><button>Trainer</button></a> <a
-			href="/admin/login"><button>Admin</button></a>
+	<div class="container">
+		<header>
+			<h2>${pass}</h2>
+			<h3>${fail}</h3>
+			<h1>Welcome to Quiz Application</h1>
+		</header>
+		<main>
+			<div class="buttons">
+				<a href="/student/login" class="button">Student</a> <a
+					href="/trainer/login" class="button">Trainer</a> <a
+					href="/admin/login" class="button">Admin</a>
+			</div>
+		</main>
 	</div>
+
 	<script>
 		setTimeout(function() {
 			var h2 = document.querySelector('h2');

@@ -1,5 +1,7 @@
 package org.jsp.quiz.dao;
 
+import java.util.List;
+
 import org.jsp.quiz.dto.Trainer;
 import org.jsp.quiz.repository.TrainerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,11 @@ public class TrainerDao {
 
 	public Trainer findById(int id) {
 		return trainerRepository.findById(id).orElse(null);
+	}
+	
+	public List<Trainer> fetchVerifiedTrainers()
+	{
+		return trainerRepository.findByVerifiedTrue();
 	}
 
 }
