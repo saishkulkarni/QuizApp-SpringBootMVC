@@ -7,6 +7,7 @@ import java.util.Random;
 import org.jsp.quiz.dao.StudentDao;
 import org.jsp.quiz.dto.Student;
 import org.jsp.quiz.helper.AES;
+import org.jsp.quiz.helper.LoginHelper;
 import org.jsp.quiz.helper.SendMailLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class StudentService {
@@ -52,7 +54,7 @@ public class StudentService {
 					return "StudentSignup";
 				} else {
 					student1.setOtp(new Random().nextInt(100000, 999999));
-				//	mailLogic.sendMail(student1);
+					// mailLogic.sendMail(student1);
 					studentDao.save(student1);
 					map.put("id", student1.getId());
 					map.put("pass", "OTP Sent Again");
@@ -104,6 +106,26 @@ public class StudentService {
 			map.put("pass", "OTP Resent Success");
 			return "VerifyOtp";
 		}
+	}
+
+	public String login(LoginHelper helper, ModelMap map, HttpSession session) {
+		Student student = studentDao.findByEmail(helper.getEmail());
+		if (student == null)
+			map.put("fail", "Invalid Email");
+		else {
+			if (student.isVerified()) {
+				if (student.isApproved()) {
+					if (AES.decrypt(student.getPassword(),"123").equals(helper.getPassword())) {
+						map.put("pass", "Login Success");
+						return "StudentHome";
+					} else
+						map.put("fail", "Invalid Password");
+				} else
+					map.put("fail", "Wait for Admins Approval");
+			} else
+				map.put("fail", "First Verify Email");
+		}
+		return "StudentLogin";
 	}
 
 }

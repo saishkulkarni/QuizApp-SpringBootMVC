@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import org.jsp.quiz.dto.Student;
+import org.jsp.quiz.helper.LoginHelper;
 import org.jsp.quiz.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -58,5 +60,11 @@ public class StudentController {
 	@GetMapping("/resend-otp/{id}")
 	public String resendOtp(@PathVariable int id, ModelMap map) throws UnsupportedEncodingException, MessagingException {
 		return studentService.resendOtp(id, map);
+	}
+	
+	@PostMapping("/login")
+	public String login(LoginHelper helper,ModelMap map,HttpSession session)
+	{
+		return studentService.login(helper,map,session);
 	}
 }

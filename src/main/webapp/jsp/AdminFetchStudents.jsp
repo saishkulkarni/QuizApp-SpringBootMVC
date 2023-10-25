@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Admin Fetch Trainers</title>
+<title>Admin Fetch Students</title>
 </head>
 <body>
 	<header>
@@ -20,31 +20,27 @@
 			<th>Picture</th>
 			<th>Email</th>
 			<th>Mobile</th>
-			<th>Employee Id</th>
 			<th>Gender</th>
-			<th>Subject</th>
 			<th>Status</th>
 			<th>Change Status</th>
 		</tr>
 
-		<c:forEach var="trainer" items="${trainers}">
+		<c:forEach var="student" items="${students}">
 			<tr>
-				<th>${trainer.getId()}</th>
-				<th>${trainer.getName()}</th>
+				<th>${student.getId()}</th>
+				<th>${student.getName()}</th>
 				<th><img
-					src="data:image/jpeg;base64,${Base64.encodeBase64String(trainer.getPicture())}">
+					src="data:image/jpeg;base64,${Base64.encodeBase64String(student.getPicture())}">
 				</th>
-				<th>${trainer.getEmail()}</th>
-				<th>${trainer.getMobile()}</th>
-				<th>${trainer.getEid()}</th>
-				<th>${trainer.getGender()}</th>
-				<th>${trainer.getSubject()}</th>
-				<th><c:if test="${trainer.isApproved()}">
+				<th>${student.getEmail()}</th>
+				<th>${student.getMobile()}</th>
+				<th>${student.getGender()}</th>
+				<th><c:if test="${student.isApproved()}">
 				Approved
-				</c:if> <c:if test="${!trainer.isApproved()}">
+				</c:if> <c:if test="${!student.isApproved()}">
 				Not Approved
 				</c:if></th>
-				<th><a href="/admin/trainer/change-status/${trainer.getId()}"><button>Change
+				<th><a href="/admin/student/change-status/${student.getId()}"><button>Change
 							Status</button></a></th>
 			</tr>
 		</c:forEach>

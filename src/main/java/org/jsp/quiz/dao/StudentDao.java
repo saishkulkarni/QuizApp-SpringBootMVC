@@ -1,5 +1,7 @@
 package org.jsp.quiz.dao;
 
+import java.util.List;
+
 import org.jsp.quiz.dto.Student;
 import org.jsp.quiz.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,10 @@ public class StudentDao {
 
 	public Student findById(int id) {
 		return studentRepository.findById(id).orElse(null);
+	}
+
+	public List<Student> fetchVerifiedStudents() {
+		return studentRepository.findByVerifiedTrue();
 	}
 
 }

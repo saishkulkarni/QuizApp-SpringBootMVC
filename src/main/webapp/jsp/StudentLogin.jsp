@@ -97,7 +97,7 @@ a {
 <h2>${pass}</h2>
 <h3>${fail}</h3>
 <div id="login">
-<form action="#" method="post">
+<form action="/student/login" method="post">
     <table>
         <tr>
             <td><label for="email">Email:</label></td>

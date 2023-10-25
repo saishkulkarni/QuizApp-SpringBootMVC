@@ -8,7 +8,7 @@
 </head>
 <body>
 <a href="/admin/fetch-trainer"><button>Approve Trainer</button></a>
-<a><button>Approve Student</button></a>
+<a href="/admin/fetch-student"><button>Approve Student</button></a>
 <a href="/logout"><button>Logout</button></a>
 </body>
 </html>
