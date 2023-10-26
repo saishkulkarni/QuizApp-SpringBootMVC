@@ -1,8 +1,10 @@
 package org.jsp.quiz.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import org.jsp.quiz.dto.Trainer;
+import org.jsp.quiz.helper.LoginHelper;
 import org.jsp.quiz.service.TrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -52,4 +55,31 @@ public class TrainerController {
 	public String verifyLink(@PathVariable int id, @PathVariable String token, ModelMap map) {
 		return trainerService.verifylink(id, token, map);
 	}
+
+	@PostMapping("/login")
+	public String login(LoginHelper helper, ModelMap map, HttpSession session) {
+		return trainerService.login(helper, map, session);
+	}
+
+	@GetMapping("/forgot-password")
+	public String forgotPassword() {
+		return "TrainerForgotPassword";
+	}
+
+	@PostMapping("/forgot-password")
+	public String forgotPassword(@RequestParam String email, ModelMap map)
+			throws UnsupportedEncodingException, MessagingException {
+		return trainerService.forgotPassword(map, email);
+	}
+
+	@GetMapping("/reset-password/{id}/{token}")
+	public String resetLink(@PathVariable int id, @PathVariable String token, ModelMap map) {
+		return trainerService.resetLink(id, token, map);
+	}
+
+	@PostMapping("/reset-password")
+	public String resetPassword(@RequestParam int id, @RequestParam String password, ModelMap map) {
+		return trainerService.resetPassword(id, password, map);
+	}
+
 }

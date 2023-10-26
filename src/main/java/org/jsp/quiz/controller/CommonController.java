@@ -17,7 +17,7 @@ public class CommonController {
 	@GetMapping("/logout")
 	public String logout(HttpSession session, ModelMap map) {
 		session.invalidate();
-		map.put("pass", "Logged out Success");
+		map.put("pass", "Logout Success");
 		return "index";
 
 	}

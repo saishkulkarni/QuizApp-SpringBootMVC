@@ -17,13 +17,12 @@ body {
 	max-width: 1000px;
 	margin: 0 auto;
 	padding: 20px;
-	border-radius: 5px;
+	border-radius: 15px;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 header {
 	text-align: center;
-	text-transform: uppercase;
 	margin-bottom: 20px;
 }
 
@@ -34,13 +33,13 @@ h1 {
 
 h2 {
 	font-size: 30px;
-	color: green;
+	color: #A2FF86;
 	margin: 10px 0;
 }
 
 h3 {
 	font-size: 30px;
-	color: red;
+	color: #F94C10;
 	margin: 10px 0;
 }
 
@@ -54,6 +53,7 @@ main {
 
 .button {
 	font-family: "Open Sans", sans-serif;
+	margin: 5px;
 	font-size: 20px;
 	letter-spacing: 2px;
 	color: #000;
@@ -68,9 +68,8 @@ main {
 	text-transform: uppercase;
 	cursor: pointer;
 	border: 5px solid;
-	padding: 0.35em 0.8em;
 	color: #000;
-	padding: 0.35em 0.8em;
+	font-size: 20px;
 }
 
 .button:active {
@@ -83,6 +82,15 @@ main {
 	.button {
 		padding: 0.3em 0.9em;
 	}
+}
+
+p.copyright {
+	position: absolute;
+	width: 95%;
+	color: black;
+	font-size: 20px;
+	text-align: right;
+	bottom: 0;
 }
 </style>
 
@@ -102,7 +110,9 @@ main {
 			</div>
 		</main>
 	</div>
-
+	<footer>
+		<p class="copyright">©Saish</p>
+	</footer>
 	<script>
 		setTimeout(function() {
 			var h2 = document.querySelector('h2');

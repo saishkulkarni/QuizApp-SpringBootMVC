@@ -1,131 +1,196 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Student Login</title>
-<link rel="stylesheet" href="../css/index.css">
 <style>
-body, h1, h2, h3, p {
-    margin: 0;
-    padding: 0;
+body {
+	margin: 0;
+	padding: 0;
+	background-image: url("../images/bg1.jpg");
+	background-size: cover;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
-    margin: 0;
-    padding: 0;
+.container {
+	max-width: 1000px;
+	margin: 0 auto;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+header {
+	text-align: center;
+	margin-bottom: 20px;
 }
 
 h1 {
-    font-size: 48px; /* Larger font size */
-    color: #333;
-    margin: 40px 0; /* Increased margin */
-    text-align: center; /* Center the text */
+	font-size: 48px;
+	color: #333;
 }
 
 h2 {
-    color: green;
-    font-size: 36px; /* Larger font size */
+	font-size: 30px;
+	color: #A2FF86;
+	margin: 10px 0;
 }
 
 h3 {
-    color: red;
-    font-size: 36px; /* Larger font size */
+	font-size: 30px;
+	color: #F94C10;
+	margin: 10px 0;
 }
 
 #login {
-    background-color: #fff;
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 30px; /* Increased padding */
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-form {
-    margin: 30px 0; /* Increased margin */
+	max-width: 400px;
+	margin: 0 auto;
+	border-radius: 10px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+	padding: 20px;
+	margin-top: 20px;
 }
 
 label {
-    font-weight: bold;
-    font-size: 24px; /* Larger font size */
+	display: block;
+	font-size: 25px;
 }
 
 input[type="text"], input[type="password"] {
-    width: 100%;
-    padding: 20px; /* Larger padding */
-    margin: 15px 0; /* Increased margin */
-    border: 2px solid #ccc; /* Thicker border */
-    border-radius: 8px; /* Larger border radius */
+	width: 100%;
+	font-size: 20px;
+	padding: 5px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	opacity: 0.6;
 }
 
 button[type="submit"] {
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    padding: 20px 30px; /* Larger padding */
-    border-radius: 8px; /* Larger border radius */
-    cursor: pointer;
-    transition: background-color 0.3s;
+	width: 50%;
+	cursor: pointer;
+	margin-left: 100px;
+	padding: 8px 15px;
+	border-radius: 5px;
+	font-size: 20px;
+	opacity: 0.8;
 }
 
-button[type="reset"] {
-    background-color: #ccc;
-    color: #fff;
-    border: none;
-    padding: 20px 30px; /* Larger padding */
-    border-radius: 8px; /* Larger border radius */
-    cursor: pointer;
-    transition: background-color 0.3s;
+button[type="submit"] {
+	background-color: #fff;
+	color: #005B41;
 }
 
-button[type="submit"]:hover, button[type="reset"]:hover {
-    background-color: #0056b3;
+button[type="submit"]:hover {
+	background-color: #005B41;
+	color: #fff;
 }
 
-a {
-    text-decoration: none;
-    color: #007BFF;
-    font-size: 24px; /* Larger font size */
+#forgot-password {
+	display: block;
+	text-align: Center;
+	color: black;
+	font-size: 20px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#forgot-password:hover {
+	text-decoration: none;
+	color: red;
+}
+
+#signup {
+	display: block;
+	width: 50%;
+	text-decoration: none;
+	color: black;
+	text-align: center;
+	font-size: 20px;
+	border-radius: 5px;
+	padding: 10px 20px;
+	background-color: white;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 85px;
+	opacity: 0.6;
+	margin-top: 10px;
+}
+
+#signup:hover {
+	background-color:#A2FF86;
+	opacity: 1;
+}
+
+#back {
+	display: block;
+	background-color: #fff;
+	text-decoration: none;
+	border-radius: 5px;
+	margin-top: 10px;
+	width: 10%;
+	margin-left: 430px;
+	color: black;
+	border: 5px;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 20px;
+	text-align: center;
+	opacity: 0.8;
+}
+
+#back:hover {
+	background-color: black;
+	color: #fff;
+}
+
+p.copyright {
+	width: 95%;
+	color: black;
+	font-size: 20px;
+	text-align: right;
+	bottom: 0;
+	position: absolute;
 }
 </style>
 </head>
 <body>
-<h1>Welcome to Student Login Page</h1>
-<h2>${pass}</h2>
-<h3>${fail}</h3>
-<div id="login">
-<form action="/student/login" method="post">
-    <table>
-        <tr>
-            <td><label for="email">Email:</label></td>
-            <td><input type="text" id="email" name="email"></td>
-        </tr>
-        <tr>
-            <td><label for="password">Password:</label></td>
-            <td><input type="password" id="password" name="password"></td>
-        </tr>
-        <tr>
-            <td><button type="submit">Login</button></td>
-            <td><button type="reset">Cancel</button></td>
-        </tr>
-    </table>
-</form>
-<a href="#">Forgot Password?</a><br><br><a href="/student/signup"><button>Create New Account</button></a> <a href="/"><button>Back</button></a>
-</div>
+	<div class="container">
+		<header>
+			<h2>${pass}</h2>
+			<h3>${fail}</h3>
+			<h1>Welcome to Student Login Page</h1>
+		</header>
 
-<script>
-setTimeout(function() {
-    var h2 = document.querySelector('h2');
-    var h3 = document.querySelector('h3');
+		<div id="login">
+			<form action="/student/login" method="post">
+				<label for="email">Email:</label> <input type="text" id="email"
+					name="email"> <label for="password">Password:</label> <input
+					type="password" id="password" name="password">
+				<button type="submit">Login</button>
+				<a id="forgot-password" href="/student/forgot-password">Forgot Password?</a>
+				<hr>
+				 <a id="signup"
+					href="/student/signup">Create New Account</a>
+			</form>
+		</div>
+		<a id="back" href="/">Back</a>
+	</div>
 
-    if (h2 && h3) {
-        h2.style.display = 'none';
-        h3.style.display = 'none';
-    }
-}, 1000);
-</script>
+	<footer>
+		<p class="copyright">©Saish</p>
+	</footer>
+	<script>
+		setTimeout(function() {
+			var h2 = document.querySelector('h2');
+			var h3 = document.querySelector('h3');
+			if (h2 && h3) {
+				h2.style.display = 'none';
+				h3.style.display = 'none';
+			}
+		}, 1000);
+	</script>
 </body>
-</html>

@@ -7,109 +7,201 @@
 <title>Signup</title>
 <style>
 body {
-	font-family: Arial, sans-serif;
-	background-color: #f0f0f0;
 	margin: 0;
 	padding: 0;
+	background-image: url("../images/bg1.jpg");
+	background-size: cover;
+}
+
+.container {
+	max-width: 1000px;
+	margin: 0 auto;
+	border-radius: 10px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 h1 {
 	text-align: center;
-	font-size: 48px; /* Larger font size */
-	margin: 40px 0; /* Increased margin */
+	font-size: 48px;
+	color: #333;
+}
+
+h2, h3 {
+	font-size: 30px;
+	margin: 10px 0;
+}
+
+h2 {
+	color: #A2FF86;
 }
 
 h3 {
-	text-align: center;
-	font-size: 36px; /* Larger font size */
+	color: #F94C10;
+}
+
+.centered-form {
+	max-width: 1000px;
+	margin: 0 auto;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+	padding: 20px;
+	margin-top: 20px;
 }
 
 form {
-	text-align: center;
-	background-color: #fff;
-	border-radius: 5px;
-	padding: 30px; /* Increased padding */
-	width: 700px;
-	margin: 0 auto;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	width: 100%;
 }
 
 label {
 	display: block;
-	text-align: left;
-	margin: 10px 0; /* Increased margin */
-	font-size: 24px; /* Larger font size */
+	font-size: 25px;
 }
 
-input[type="text"], input[type="email"], input[type="number"], input[type="password"],
-	input[type="file"] {
+input {
 	width: 100%;
-	padding: 10px; /* Larger padding */
-	margin: 10px 0; /* Increased margin */
+	font-size: 20px;
+	padding: 5px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	opacity: 0.6;
 }
 
-input[type="radio"] {
-	margin: 0 10px; /* Increased margin */
+password {
+	width: 100%;
+	font-size: 20px;
+	padding: 5px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	opacity: 0.6;
 }
 
-#submit {
-	background-color: #0074d9;
-	color: #fff;
-	padding: 10px 20px; /* Larger padding */
-	border: none;
+radiobutton {
+	opacity: 0.6;
+}
+
+input[type="file"] {
+	opacity: 0.6;
+}
+
+a {
+	display: block;
+	background-color: #fff;
+	text-decoration: none;
+	margin-top: 10px;
+	width: 10%;
+	margin-left: 430px;
+	color: black;
+	border: 5px;
+	padding: 10px 20px;
+	border-radius: 5px;
 	cursor: pointer;
+	font-size: 20px;
+	text-align: center;
+	opacity: 0.8;
 }
 
-#submit:hover {
-	background-color: #0056b3;
+a:hover {
+	background-color: black;
+	color: #fff;
+}
+
+button {
+	margin-left: 75px;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 20px;
+	opacity: 0.8;
+}
+
+button#submit {
+	background-color: #fff;
+	color: #005B41;
+}
+
+button[type="reset"] {
+	background-color: #fff;
+	color: #C70039;
+}
+
+button#submit:hover {
+	background-color: #005B41;
+	color: #fff;
+}
+
+button[type="reset"]:hover {
+	background-color: #C70039;
+	color: #fff;
+}
+
+p.copyright {
+	width: 95%;
+	color: black;
+	font-size: 20px;
+	text-align: right;
+	bottom: 0;
+	position: absolute;
 }
 </style>
 </head>
 <body>
-	<h1>Student Signup page</h1>
-	<h2 style="color: green">${pass}</h2>
-	<h3 style="color: red">${fail}</h3>
-	<mvc:form action="/student/signup" method="post"
-		modelAttribute="student" enctype="multipart/form-data">
-		<table>
-			<tr>
-				<td><label for="name">Name:</label></td>
-				<td><mvc:input path="name" /></td>
-				<td><mvc:errors path="name" /></td>
-			</tr>
-			<tr>
-				<td><label for="email">Email:</label></td>
-				<td><mvc:input path="email" /></td>
-				<td><mvc:errors path="email" /></td>
-			</tr>
-			<tr>
-				<td><label for="mobile">Mobile:</label></td>
-				<td><mvc:input path="mobile" /></td>
-				<td><mvc:errors path="mobile" /></td>
-			</tr>
-			<tr>
-				<td><label for="password">Password:</label></td>
-				<td><mvc:password path="password" /></td>
-				<td><mvc:errors path="password" /></td>
-			</tr>
-			<tr>
-				<td><label for="gender">Gender:</label></td>
-				<td><mvc:radiobutton path="gender" value="male" />Male <mvc:radiobutton
-						path="gender" value="female" />Female</td>
-				<td><mvc:errors path="gender" /></td>
-			</tr>
-			<tr>
-				<td><label for="picture">Picture:</label></td>
-				<td><input id="picture" type="file" name="pic"></td>
-			</tr>
-			<tr>
-				<td><a href=""><button id="submit">Create</button></a></td>
-				<td><button type="reset">Cancel</button></td>
-			</tr>
-		</table>
-		<a href="/"><button type="button">Back</button></a>
-	</mvc:form>
-	<br>
+	<div class="container">
+		<header>
+			<h2>${pass}</h2>
+			<h3>${fail}</h3>
+			<h1>Student Signup</h1>
+		</header>
+		<div class="centered-form">
+			<mvc:form action="/student/signup" method="post"
+				modelAttribute="student" enctype="multipart/form-data">
+				<table>
+					<tr>
+						<td><label for="name">Name:</label></td>
+						<td><mvc:input path="name" /></td>
+						<td><mvc:errors path="name" /></td>
+					</tr>
+					<tr>
+						<td><label for="email">Email:</label></td>
+						<td><mvc:input path="email" /></td>
+						<td><mvc:errors path="email" /></td>
+					</tr>
+					<tr>
+						<td><label for="mobile">Mobile:</label></td>
+						<td><mvc:input path="mobile" /></td>
+						<td><mvc:errors path="mobile" /></td>
+					</tr>
+					<tr>
+						<td><label for="password">Password:</label></td>
+						<td><mvc:password path="password" /></td>
+						<td><mvc:errors path="password" /></td>
+					</tr>
+					<tr>
+						<td><label for="gender">Gender:</label></td>
+						<td><mvc:radiobutton path="gender" value="male" />Male <mvc:radiobutton
+								path="gender" value="female" />Female</td>
+						<td><mvc:errors path="gender" /></td>
+					</tr>
+					<tr>
+						<td><label for="picture">Picture:</label></td>
+						<td><input id="picture" type="file" name="pic"></td>
+					</tr>
+					<tr>
+						<td><button id="submit">Create</button></td>
+						<td><button type="reset">Cancel</button></td>
+					</tr>
+				</table>
+			</mvc:form>
+		</div>
+		<a href="/">Back</a>
+	</div>
+	<footer>
+		<p class="copyright">©Saish</p>
+	</footer>
 	<script>
 		setTimeout(function() {
 			var h2 = document.querySelector('h2');

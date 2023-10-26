@@ -1,11 +1,13 @@
 package org.jsp.quiz.service;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
 import org.jsp.quiz.dao.TrainerDao;
 import org.jsp.quiz.dto.Trainer;
 import org.jsp.quiz.helper.AES;
+import org.jsp.quiz.helper.LoginHelper;
 import org.jsp.quiz.helper.SendMailLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Service
@@ -39,7 +42,7 @@ public class TrainerService {
 
 			trainerDao.save(trainer);
 
-	//		mailLogic.sendMail(trainer);
+			// mailLogic.sendMail(trainer);
 
 			map.put("pass", "Link Sent Success, CLick on Link to Create Account");
 			return "TrainerLogin";
@@ -89,4 +92,67 @@ public class TrainerService {
 		}
 	}
 
+	public String login(LoginHelper helper, ModelMap map, HttpSession session) {
+		Trainer trainer = trainerDao.findByEmail(helper.getEmail());
+		if (trainer == null)
+			map.put("fail", "Invalid Email");
+		else {
+			if (trainer.isVerified()) {
+				if (trainer.isApproved()) {
+					if (AES.decrypt(trainer.getPassword(), "123").equals(helper.getPassword())) {
+						map.put("pass", "Login Success");
+						session.setAttribute("trainer", trainer);
+						return "TrainerHome";
+					} else
+						map.put("fail", "Invalid Password");
+				} else
+					map.put("fail", "Wait for Admins Approval");
+			} else
+				map.put("fail", "First Verify Email");
+		}
+		return "TrainerLogin";
+	}
+
+	public String forgotPassword(ModelMap map, String email) throws UnsupportedEncodingException, MessagingException {
+		Trainer trainer = trainerDao.findByEmail(email);
+		if (trainer == null) {
+			map.put("fail", "Account with " + email + " Does't Exist");
+			return "TrainerForgotPassword";
+		} else {
+			trainer.setToken("xyz" + new Random().nextInt() + "pqr");
+		//	mailLogic.reSendLink(trainer);
+			trainerDao.save(trainer);
+			map.put("pass", "Reset Link Sent Success Click that link to Reset Password");
+			return "TrainerLogin";
+		}
+	}
+
+	public String resetLink(int id, String token, ModelMap map) {
+		Trainer trainer = trainerDao.findById(id);
+		if (trainer == null) {
+			map.put("fail", "Something went Wrong");
+			return "index";
+		} else {
+			if (trainer.getToken().equals(token)) {
+				map.put("id", trainer.getId());
+				return "TrainerResetPassword";
+			} else {
+				map.put("fail", "Invalid Link");
+				return "TrainerLogin";
+			}
+		}
+	}
+
+	public String resetPassword(int id, String password, ModelMap map) {
+		Trainer trainer = trainerDao.findById(id);
+		if (trainer == null) {
+			map.put("fail", "Something went Wrong");
+			return "index";
+		} else {
+			trainer.setPassword(AES.encrypt(password, "123"));
+			trainerDao.save(trainer);
+			map.put("pass", "Password Reset Success");
+			return "TrainerLogin";
+		}
+	}
 }

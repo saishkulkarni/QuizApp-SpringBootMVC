@@ -115,8 +115,9 @@ public class StudentService {
 		else {
 			if (student.isVerified()) {
 				if (student.isApproved()) {
-					if (AES.decrypt(student.getPassword(),"123").equals(helper.getPassword())) {
+					if (AES.decrypt(student.getPassword(), "123").equals(helper.getPassword())) {
 						map.put("pass", "Login Success");
+						session.setAttribute("student", student);
 						return "StudentHome";
 					} else
 						map.put("fail", "Invalid Password");
@@ -126,6 +127,41 @@ public class StudentService {
 				map.put("fail", "First Verify Email");
 		}
 		return "StudentLogin";
+	}
+
+	public String forgotPassword(ModelMap map, String email) throws UnsupportedEncodingException, MessagingException {
+		Student student = studentDao.findByEmail(email);
+		if (student == null) {
+			map.put("fail", "Account with " + email + " Does't Exist");
+			return "StudentForgotPassword";
+		} else {
+			student.setOtp(new Random().nextInt(100000, 999999));
+			// mailLogic.reSendMail(student);
+			studentDao.save(student);
+			map.put("pass", "OTP Sent Success");
+			map.put("id", student.getId());
+			return "StudentResetPassword";
+		}
+	}
+
+	public String resetPassword(int id, int otp, String password, ModelMap map) {
+		Student student = studentDao.findById(id);
+		if (student == null) {
+			map.put("fail", "Something Went Wrong");
+			return "index";
+		} else {
+			if (student.getOtp() == otp) {
+				student.setPassword(AES.encrypt(password, "123"));
+				studentDao.save(student);
+				map.put("pass", "Password Reset Success");
+				return "StudentLogin";
+			} else {
+				map.put("fail", "OTP Missmatch");
+				map.put("id", student.getId());
+				return "StudentResetPassword";
+
+			}
+		}
 	}
 
 }

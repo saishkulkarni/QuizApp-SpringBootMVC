@@ -58,13 +58,31 @@ public class StudentController {
 	}
 
 	@GetMapping("/resend-otp/{id}")
-	public String resendOtp(@PathVariable int id, ModelMap map) throws UnsupportedEncodingException, MessagingException {
+	public String resendOtp(@PathVariable int id, ModelMap map)
+			throws UnsupportedEncodingException, MessagingException {
 		return studentService.resendOtp(id, map);
 	}
-	
+
 	@PostMapping("/login")
-	public String login(LoginHelper helper,ModelMap map,HttpSession session)
-	{
-		return studentService.login(helper,map,session);
+	public String login(LoginHelper helper, ModelMap map, HttpSession session) {
+		return studentService.login(helper, map, session);
 	}
+
+	@GetMapping("/forgot-password")
+	public String forgotPassword() {
+		return "StudentForgotPassword";
+	}
+
+	@PostMapping("/forgot-password")
+	public String forgotPassword(@RequestParam String email, ModelMap map)
+			throws UnsupportedEncodingException, MessagingException {
+		return studentService.forgotPassword(map, email);
+	}
+
+	@PostMapping("/reset-password")
+	public String resetPassword(@RequestParam int id, @RequestParam int otp, @RequestParam String password,
+			ModelMap map) {
+		return studentService.resetPassword(id, otp, password, map);
+	}
+
 }
