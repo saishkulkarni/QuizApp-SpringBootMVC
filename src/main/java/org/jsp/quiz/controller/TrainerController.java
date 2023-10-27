@@ -3,6 +3,7 @@ package org.jsp.quiz.controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import org.jsp.quiz.dto.McqQuestion;
 import org.jsp.quiz.dto.Trainer;
 import org.jsp.quiz.helper.LoginHelper;
 import org.jsp.quiz.service.TrainerService;
@@ -82,4 +83,25 @@ public class TrainerController {
 		return trainerService.resetPassword(id, password, map);
 	}
 
+	@GetMapping("/add-question")
+	public String addQuestion(ModelMap map, HttpSession session) {
+		Trainer trainer = (Trainer) session.getAttribute("trainer");
+		if (trainer == null) {
+			map.put("fail", "Invalid Session");
+			return "index";
+		} else {
+			return "AddQuestion";
+		}
+	}
+
+	@PostMapping("/question-add-mcq")
+	public String addQuestion(McqQuestion question, ModelMap map, HttpSession session) {
+		Trainer trainer = (Trainer) session.getAttribute("trainer");
+		if (trainer == null) {
+			map.put("fail", "Invalid Session");
+			return "index";
+		} else {
+			return trainerService.addQuestion(question, map,trainer, session);
+		}
+	}
 }

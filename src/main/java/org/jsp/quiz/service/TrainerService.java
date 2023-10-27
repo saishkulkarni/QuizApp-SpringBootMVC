@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
 import org.jsp.quiz.dao.TrainerDao;
+import org.jsp.quiz.dto.McqQuestion;
 import org.jsp.quiz.dto.Trainer;
 import org.jsp.quiz.helper.AES;
 import org.jsp.quiz.helper.LoginHelper;
@@ -154,5 +155,10 @@ public class TrainerService {
 			map.put("pass", "Password Reset Success");
 			return "TrainerLogin";
 		}
+	}
+
+	public String addQuestion(McqQuestion question, ModelMap map, Trainer trainer, HttpSession session) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
