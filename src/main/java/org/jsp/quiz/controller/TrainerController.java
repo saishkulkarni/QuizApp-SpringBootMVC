@@ -3,8 +3,10 @@ package org.jsp.quiz.controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import org.jsp.quiz.dto.Batch;
 import org.jsp.quiz.dto.McqQuestion;
 import org.jsp.quiz.dto.Trainer;
+import org.jsp.quiz.dto.TrueFalseQuestion;
 import org.jsp.quiz.helper.LoginHelper;
 import org.jsp.quiz.service.TrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,6 +96,28 @@ public class TrainerController {
 		}
 	}
 
+	@GetMapping("/add-batchcode")
+	public String addBatchCode(ModelMap map, HttpSession session) {
+		Trainer trainer = (Trainer) session.getAttribute("trainer");
+		if (trainer == null) {
+			map.put("fail", "Invalid Session");
+			return "index";
+		} else {
+			return "AddBatchCode";
+		}
+	}
+
+	@PostMapping("/add-batchcode")
+	public String addbatchCode(Batch batch, ModelMap map, HttpSession session) {
+		Trainer trainer = (Trainer) session.getAttribute("trainer");
+		if (trainer == null) {
+			map.put("fail", "Invalid Session");
+			return "index";
+		} else {
+			return trainerService.addBatchCode(batch, map);
+		}
+	}
+
 	@PostMapping("/question-add-mcq")
 	public String addQuestion(McqQuestion question, ModelMap map, HttpSession session) {
 		Trainer trainer = (Trainer) session.getAttribute("trainer");
@@ -101,7 +125,18 @@ public class TrainerController {
 			map.put("fail", "Invalid Session");
 			return "index";
 		} else {
-			return trainerService.addQuestion(question, map,trainer, session);
+			return trainerService.addQuestion(question, map, trainer, session);
+		}
+	}
+
+	@PostMapping("/question-add-truefalse")
+	public String addQuestion(TrueFalseQuestion question, ModelMap map, HttpSession session) {
+		Trainer trainer = (Trainer) session.getAttribute("trainer");
+		if (trainer == null) {
+			map.put("fail", "Invalid Session");
+			return "index";
+		} else {
+			return trainerService.addQuestion(question, map, trainer, session);
 		}
 	}
 }

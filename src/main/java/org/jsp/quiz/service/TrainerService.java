@@ -5,8 +5,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
 import org.jsp.quiz.dao.TrainerDao;
+import org.jsp.quiz.dto.Batch;
 import org.jsp.quiz.dto.McqQuestion;
 import org.jsp.quiz.dto.Trainer;
+import org.jsp.quiz.dto.TrueFalseQuestion;
 import org.jsp.quiz.helper.AES;
 import org.jsp.quiz.helper.LoginHelper;
 import org.jsp.quiz.helper.SendMailLogic;
@@ -121,7 +123,7 @@ public class TrainerService {
 			return "TrainerForgotPassword";
 		} else {
 			trainer.setToken("xyz" + new Random().nextInt() + "pqr");
-		//	mailLogic.reSendLink(trainer);
+			// mailLogic.reSendLink(trainer);
 			trainerDao.save(trainer);
 			map.put("pass", "Reset Link Sent Success Click that link to Reset Password");
 			return "TrainerLogin";
@@ -158,7 +160,27 @@ public class TrainerService {
 	}
 
 	public String addQuestion(McqQuestion question, ModelMap map, Trainer trainer, HttpSession session) {
-		// TODO Auto-generated method stub
-		return null;
+		question.setSubject(trainer.getSubject());
+		trainerDao.saveQuestion(question);
+		map.put("pass", "Question Added Success");
+		return "TrainerHome";
+	}
+
+	public String addBatchCode(Batch batch, ModelMap map) {
+		if (trainerDao.findById(batch.getBatchCode()) == null) {
+			trainerDao.saveBatch(batch);
+			map.put("pass", "Batch Code Creation Success");
+			return "TrainerHome";
+		} else {
+			map.put("fail", "Batch Code Already Exists");
+			return "TrainerHome";
+		}
+	}
+
+	public String addQuestion(TrueFalseQuestion question, ModelMap map, Trainer trainer, HttpSession session) {
+		question.setSubject(trainer.getSubject());
+		trainerDao.saveQuestion(question);
+		map.put("pass", "Question Added Success");
+		return "TrainerHome";
 	}
 }

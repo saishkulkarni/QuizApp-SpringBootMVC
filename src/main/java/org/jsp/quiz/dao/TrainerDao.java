@@ -2,8 +2,14 @@ package org.jsp.quiz.dao;
 
 import java.util.List;
 
+import org.jsp.quiz.dto.Batch;
+import org.jsp.quiz.dto.McqQuestion;
 import org.jsp.quiz.dto.Trainer;
+import org.jsp.quiz.dto.TrueFalseQuestion;
+import org.jsp.quiz.repository.BatchRepository;
 import org.jsp.quiz.repository.TrainerRepository;
+import org.jsp.quiz.repository.TrueFalseRepository;
+import org.jsp.quiz.service.McqQuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +20,15 @@ public class TrainerDao {
 
 	@Autowired
 	TrainerRepository trainerRepository;
+
+	@Autowired
+	BatchRepository batchRepository;
+	
+	@Autowired
+	TrueFalseRepository trueFalseRepository;
+
+	@Autowired
+	McqQuestionRepository mcqQuestionRepository;
 
 	public Trainer findByEmail(String email) {
 		return trainerRepository.findByEmail(email);
@@ -30,10 +45,24 @@ public class TrainerDao {
 	public Trainer findById(int id) {
 		return trainerRepository.findById(id).orElse(null);
 	}
-	
-	public List<Trainer> fetchVerifiedTrainers()
-	{
+
+	public List<Trainer> fetchVerifiedTrainers() {
 		return trainerRepository.findByVerifiedTrue();
 	}
 
+	public Batch saveBatch(Batch batch) {
+		return batchRepository.save(batch);
+	}
+
+	public Batch findById(String id) {
+		return batchRepository.findById(id).orElse(null);
+	}
+
+	public McqQuestion saveQuestion(McqQuestion question) {
+		return mcqQuestionRepository.save(question);
+	}
+
+	public TrueFalseQuestion saveQuestion(TrueFalseQuestion question) {
+		return trueFalseRepository.save(question);
+	}
 }

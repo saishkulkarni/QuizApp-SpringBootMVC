@@ -8,17 +8,13 @@ import lombok.Data;
 
 @Data
 @Entity
-public class McqQuestion {
-	@GeneratedValue(generator = "mcq")
-	@SequenceGenerator(name = "mcq", initialValue = 500, allocationSize = 1)
+public class TrueFalseQuestion {
+	@GeneratedValue(generator = "trueFalse")
+	@SequenceGenerator(name = "trueFalse", initialValue = 5000, allocationSize = 1)
 	@Id
 	int id;
 	String question;
 	int marks;
-	String answer;
-	String optionA;
-	String optionB;
-	String optionC;
-	String optionD;
 	String subject;
+	boolean answer;
 }
