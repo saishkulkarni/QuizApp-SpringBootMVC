@@ -2,11 +2,15 @@ package org.jsp.quiz.service;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.jsp.quiz.dao.TrainerDao;
 import org.jsp.quiz.dto.Batch;
+import org.jsp.quiz.dto.DescriptiveQuestion;
 import org.jsp.quiz.dto.McqQuestion;
+import org.jsp.quiz.dto.QuizTest;
 import org.jsp.quiz.dto.Trainer;
 import org.jsp.quiz.dto.TrueFalseQuestion;
 import org.jsp.quiz.helper.AES;
@@ -183,4 +187,81 @@ public class TrainerService {
 		map.put("pass", "Question Added Success");
 		return "TrainerHome";
 	}
+
+	public String addQuestion(DescriptiveQuestion question, ModelMap map, Trainer trainer, HttpSession session) {
+		question.setSubject(trainer.getSubject());
+		trainerDao.saveQuestion(question);
+		map.put("pass", "Question Added Success");
+		return "TrainerHome";
+	}
+
+	public String createTest(ModelMap map) {
+		List<Batch> batchs = trainerDao.fetchAllBatchCodes();
+		if (batchs.isEmpty()) {
+			map.put("fail", "First Create Batch to Create Test");
+			return "TrainerHome";
+		} else {
+			map.put("batchs", batchs);
+			return "AddTest";
+		}
+	}
+
+	public String createTest(QuizTest test, ModelMap map) {
+		Batch batch = trainerDao.findById(test.getBatchCode());
+		if (batch == null) {
+			map.put("fail", "Select BatchCode First");
+			return createTest(map);
+		} else {
+			List<QuizTest> tests = batch.getTests();
+
+			if (tests == null) {
+				tests = new ArrayList<QuizTest>();
+			}
+
+			tests.add(test);
+			batch.setTests(tests);
+			trainerDao.saveBatch(batch);
+
+			List<McqQuestion> mcqs = trainerDao.fetchAllMcqs();
+			List<TrueFalseQuestion> trueFalseQuestions = trainerDao.fetchAllTrueFalses();
+			List<DescriptiveQuestion> descriptiveQuestions = trainerDao.fetchAllDescriptiveQuestions();
+
+			if (mcqs.isEmpty() && trueFalseQuestions.isEmpty() && descriptiveQuestions.isEmpty()) {
+				map.put("fail", "Test Created, No Questions to Add Edit Test and Add Questions later");
+				return "TrainerHome";
+			} else {
+				map.put("list1", mcqs);
+				map.put("list2", trueFalseQuestions);
+				map.put("list3", descriptiveQuestions);
+				map.put("id", test.getId());
+				return "SelectQuestions";
+			}
+		}
+	}
+
+	public String addQuestionsToTest(QuizTest test, ModelMap map) {
+		QuizTest test2 = trainerDao.findTestById(test.getId());
+		if (test2 == null) {
+			map.put("fail", "Something went Wrong");
+			return "TrainerHome";
+		} else {
+			test.setBatchCode(test2.getBatchCode());
+			test.setDuration(test2.getDuration());
+			test.setName(test2.getName());
+			test.setStartTime(test2.getStartTime());
+			int marks = 0, marks1 = 0, marks2 = 0, marks3 = 0;
+			if (test.getMcqs() != null)
+				marks1 = test.getMcqs().stream().mapToInt(x -> x.getMarks()).sum();
+			if (test.getTrueFalseQuestions() != null)
+				marks2 = test.getTrueFalseQuestions().stream().mapToInt(x -> x.getMarks()).sum();
+			if (test.getDescriptiveQuestions() != null)
+				marks3 = test.getDescriptiveQuestions().stream().mapToInt(x -> x.getMarks()).sum();
+			marks = marks1 + marks2 + marks3;
+			test.setTotalMarks(marks);
+			trainerDao.saveTest(test);
+			map.put("pass", "Test Created Success");
+			return "TrainerHome";
+		}
+	}
+
 }

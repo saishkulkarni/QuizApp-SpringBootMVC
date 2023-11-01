@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import org.jsp.quiz.dto.Batch;
+import org.jsp.quiz.dto.DescriptiveQuestion;
 import org.jsp.quiz.dto.McqQuestion;
+import org.jsp.quiz.dto.QuizTest;
 import org.jsp.quiz.dto.Trainer;
 import org.jsp.quiz.dto.TrueFalseQuestion;
 import org.jsp.quiz.helper.LoginHelper;
@@ -137,6 +139,50 @@ public class TrainerController {
 			return "index";
 		} else {
 			return trainerService.addQuestion(question, map, trainer, session);
+		}
+	}
+
+	@PostMapping("/question-add-descriptive")
+	public String addQuestion(DescriptiveQuestion question, ModelMap map, HttpSession session) {
+		Trainer trainer = (Trainer) session.getAttribute("trainer");
+		if (trainer == null) {
+			map.put("fail", "Invalid Session");
+			return "index";
+		} else {
+			return trainerService.addQuestion(question, map, trainer, session);
+		}
+	}
+
+	@GetMapping("/create-test")
+	public String createTest(HttpSession session, ModelMap map) {
+		Trainer trainer = (Trainer) session.getAttribute("trainer");
+		if (trainer == null) {
+			map.put("fail", "Invalid Session");
+			return "index";
+		} else {
+			return trainerService.createTest(map);
+		}
+	}
+
+	@PostMapping("/create-test")
+	public String createTest(QuizTest test, HttpSession session, ModelMap map) {
+		Trainer trainer = (Trainer) session.getAttribute("trainer");
+		if (trainer == null) {
+			map.put("fail", "Invalid Session");
+			return "index";
+		} else {
+			return trainerService.createTest(test, map);
+		}
+	}
+
+	@PostMapping("/add-test-questions")
+	public String addQUestionsToTest(QuizTest test, HttpSession session, ModelMap map) {
+		Trainer trainer = (Trainer) session.getAttribute("trainer");
+		if (trainer == null) {
+			map.put("fail", "Invalid Session");
+			return "index";
+		} else {
+			return trainerService.addQuestionsToTest(test, map);
 		}
 	}
 }
