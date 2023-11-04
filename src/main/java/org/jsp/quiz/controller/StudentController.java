@@ -85,4 +85,26 @@ public class StudentController {
 		return studentService.resetPassword(id, otp, password, map);
 	}
 
+	@GetMapping("/add-batchcode")
+	public String addBatchCode(HttpSession session, ModelMap map) {
+		Student student = (Student) session.getAttribute("student");
+		if (student == null) {
+			map.put("fail", "Invalid Session");
+			return "index";
+		} else {
+			return studentService.addBatchCode(map);
+		}
+	}
+
+	@PostMapping("/add-batch")
+	public String addBatchCode(HttpSession session, ModelMap map, Student student) {
+		Student student1 = (Student) session.getAttribute("student");
+		if (student1 == null) {
+			map.put("fail", "Invalid Session");
+			return "index";
+		} else {
+			return studentService.addBatchCode(student1, student, session, map);
+		}
+	}
+
 }

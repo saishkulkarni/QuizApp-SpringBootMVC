@@ -24,6 +24,17 @@ public class AdminController {
 		return "AdminLogin";
 	}
 
+	@GetMapping("/home")
+	public String loadHome(HttpSession session, ModelMap map) {
+		String admin = (String) session.getAttribute("admin");
+		if (admin == null) {
+			map.put("fail", "Invalid Session");
+			return "index";
+		} else {
+			return "AdminHome";
+		}
+	}
+
 	@PostMapping("/login")
 	public String login(LoginHelper helper, ModelMap map, HttpSession session) {
 		return adminService.login(helper, map, session);
@@ -35,8 +46,7 @@ public class AdminController {
 		if (admin == null) {
 			map.put("fail", "Invalid Session");
 			return "index";
-		}
-		else {
+		} else {
 			return adminService.fetchTrainers(map);
 		}
 	}
@@ -47,35 +57,30 @@ public class AdminController {
 		if (admin == null) {
 			map.put("fail", "Invalid Session");
 			return "index";
-		}
-		else {
+		} else {
 			return adminService.fetchStudents(map);
 		}
 	}
-	
+
 	@GetMapping("/trainer/change-status/{id}")
-	public String changeTrainerStatus(@PathVariable int id,ModelMap map, HttpSession session)
-	{
+	public String changeTrainerStatus(@PathVariable int id, ModelMap map, HttpSession session) {
 		String admin = (String) session.getAttribute("admin");
 		if (admin == null) {
 			map.put("fail", "Invalid Session");
 			return "index";
-		}
-		else {
-			return adminService.changeTrainerStatus(id,map);
+		} else {
+			return adminService.changeTrainerStatus(id, map);
 		}
 	}
-	
+
 	@GetMapping("/student/change-status/{id}")
-	public String changeStudentStatus(@PathVariable int id,ModelMap map, HttpSession session)
-	{
+	public String changeStudentStatus(@PathVariable int id, ModelMap map, HttpSession session) {
 		String admin = (String) session.getAttribute("admin");
 		if (admin == null) {
 			map.put("fail", "Invalid Session");
 			return "index";
-		}
-		else {
-			return adminService.changeStudentStatus(id,map);
+		} else {
+			return adminService.changeStudentStatus(id, map);
 		}
 	}
 }

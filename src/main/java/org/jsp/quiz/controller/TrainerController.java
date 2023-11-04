@@ -41,6 +41,17 @@ public class TrainerController {
 		return "TrainerLogin";
 	}
 
+	@GetMapping("/home")
+	public String loadHome(HttpSession session, ModelMap map) {
+		Trainer trainer = (Trainer) session.getAttribute("trainer");
+		if (trainer == null) {
+			map.put("fail", "Invalid Session");
+			return "index";
+		} else {
+			return "TrainerHome";
+		}
+	}
+
 	@GetMapping("/signup")
 	public String loadSignup(ModelMap map) {
 		map.put("trainer", trainer);

@@ -2,9 +2,11 @@ package org.jsp.quiz.service;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Random;
 
 import org.jsp.quiz.dao.StudentDao;
+import org.jsp.quiz.dto.Batch;
 import org.jsp.quiz.dto.Student;
 import org.jsp.quiz.helper.AES;
 import org.jsp.quiz.helper.LoginHelper;
@@ -40,7 +42,7 @@ public class StudentService {
 			// Logic for generating otp
 			student.setOtp(new Random().nextInt(100000, 999999));
 			// Logic for Sending Mail
-			mailLogic.sendMail(student);
+			// mailLogic.sendMail(student);
 			// Logic for Saving Data
 			studentDao.save(student);
 			map.put("id", student.getId());
@@ -160,6 +162,50 @@ public class StudentService {
 				map.put("id", student.getId());
 				return "StudentResetPassword";
 
+			}
+		}
+	}
+
+	public String addBatchCode(ModelMap map) {
+		List<Batch> list = studentDao.fetchAllBatchCodes();
+		if (list.isEmpty()) {
+			map.put("fail", "No Batches Present");
+			return "StudentHome";
+		} else {
+			map.put("list", list);
+			return "SelectBatchCode";
+		}
+	}
+
+	public String addBatchCode(Student student1, Student student, HttpSession session, ModelMap map) {
+		List<Batch> eBatches = student1.getBatchs();
+		List<Batch> nBatches = student.getBatchs();
+		if (nBatches == null || nBatches.isEmpty()) {
+			map.put("fail", "Select atleast One Batch");
+			return addBatchCode(map);
+		} else {
+			if (eBatches == null || eBatches.isEmpty()) {
+				student1.setBatchs(nBatches);
+				studentDao.save(student1);
+				map.put("pass", "Batch Added Success");
+				return "StudentHome";
+			} else {
+				boolean flag = false;
+				for (Batch nBatch : nBatches) {
+					if (!eBatches.contains(nBatch)) {
+						flag = true;
+						eBatches.add(nBatch);
+					}
+				}
+				if (flag) {
+					student1.setBatchs(eBatches);
+					studentDao.save(student1);
+					map.put("pass", "Batch Added Success");
+					return "StudentHome";
+				} else {
+					map.put("fail", "Batch Code Already Exists");
+					return addBatchCode(map);
+				}
 			}
 		}
 	}

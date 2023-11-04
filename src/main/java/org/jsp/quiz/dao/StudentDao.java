@@ -2,7 +2,9 @@ package org.jsp.quiz.dao;
 
 import java.util.List;
 
+import org.jsp.quiz.dto.Batch;
 import org.jsp.quiz.dto.Student;
+import org.jsp.quiz.repository.BatchRepository;
 import org.jsp.quiz.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -12,6 +14,9 @@ public class StudentDao {
 
 	@Autowired
 	StudentRepository studentRepository;
+
+	@Autowired
+	BatchRepository batchRepository;
 
 	public void save(Student student) {
 		studentRepository.save(student);
@@ -31,6 +36,10 @@ public class StudentDao {
 
 	public List<Student> fetchVerifiedStudents() {
 		return studentRepository.findByVerifiedTrue();
+	}
+
+	public List<Batch> fetchAllBatchCodes() {
+		return batchRepository.findAll();
 	}
 
 }
