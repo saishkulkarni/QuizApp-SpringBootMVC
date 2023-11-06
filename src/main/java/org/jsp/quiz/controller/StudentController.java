@@ -107,4 +107,15 @@ public class StudentController {
 		}
 	}
 
+	@GetMapping("/show-test")
+	public String showTest(HttpSession session, ModelMap map) {
+		Student student = (Student) session.getAttribute("student");
+		if (student == null) {
+			map.put("fail", "Invalid Session");
+			return "index";
+		} else {
+			return studentService.showTest(student, session, map);
+		}
+	}
+
 }

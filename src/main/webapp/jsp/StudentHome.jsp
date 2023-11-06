@@ -7,15 +7,15 @@
 <title>Insert title here</title>
 </head>
 <body>
-${pass}
+${pass}${fail}
 	<h1>Student Home</h1>
 	<a href="/student/add-batchcode"><button>Select Batch Code</button></a>
 	<br><br>
-	<a href=""><button>Take Test</button></a>
+	<a href="/student/show-test"><button>Take Test</button></a>
 	<br><br>
 	<a href=""><button>View Previous Test Results</button></a>
 	<br><br>
-	<a href=""><button>Logout</button></a>
+	<a href="/logout"><button>Logout</button></a>
 	<br><br>
 </body>
 </html>

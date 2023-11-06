@@ -2,11 +2,15 @@ package org.jsp.quiz.service;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.List;
 import java.util.Random;
 
 import org.jsp.quiz.dao.StudentDao;
 import org.jsp.quiz.dto.Batch;
+import org.jsp.quiz.dto.QuizTest;
 import org.jsp.quiz.dto.Student;
 import org.jsp.quiz.helper.AES;
 import org.jsp.quiz.helper.LoginHelper;
@@ -206,6 +210,42 @@ public class StudentService {
 					map.put("fail", "Batch Code Already Exists");
 					return addBatchCode(map);
 				}
+			}
+		}
+	}
+
+	public void enableTest() {
+		List<QuizTest> tests = studentDao.fetchAllTest();
+		for (QuizTest test : tests) {
+			if (Period.between(test.getStartTime().toLocalDate(), LocalDate.now()).getDays() == 0) {
+				if (test.getStartTime().getHour() >= LocalDateTime.now().getHour()) {
+					test.setStatus(true);
+				}
+			} else {
+				test.setStatus(false);
+			}
+		}
+		studentDao.saveAll(tests);
+
+	}
+
+	public String showTest(Student student, HttpSession session, ModelMap map) {
+		enableTest();
+		List<Batch> batchs = student.getBatchs();
+		if (batchs.isEmpty()) {
+			map.put("fail", "No Batch Selected");
+			return "StudentHome";
+		}
+		else {
+			List<QuizTest> quizTests=studentDao.fetchAllActiveTests(batchs.stream().map(x->x.getBatchCode()).toList());
+			if(quizTests.isEmpty())
+			{
+				map.put("fail", "No Active Tests Found");
+				return "StudentHome";
+			}
+			else {
+				map.put("tests", quizTests);
+				return "SelectTest";
 			}
 		}
 	}

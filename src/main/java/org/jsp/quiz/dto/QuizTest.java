@@ -27,7 +27,6 @@ public class QuizTest {
 	double totalMarks;
 	String batchCode;
 	boolean status;
-	boolean completed;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	List<McqQuestion> mcqs;
