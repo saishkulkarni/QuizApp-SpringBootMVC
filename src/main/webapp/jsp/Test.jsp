@@ -12,7 +12,7 @@
 	<h3>Test Name: ${test.name}</h3>
 	<h3>Batch Code: ${test.batchCode}</h3>
 	<h3>Total Marks: ${test.totalMarks}</h3>
-	<form action="/student/submit-test/${test.id}" method="post">
+	<form action="/student/submit-test/${test.id}" method="POST">
 		<c:if test="${test.mcqs != null && !test.mcqs.isEmpty()}">
 			<h2>MCQ:</h2>
 			<c:forEach var="question" items="${test.mcqs}">

@@ -293,7 +293,7 @@ public class StudentService {
 			}
 			for (DescriptiveQuestion question : test.getDescriptiveQuestions()) {
 				if (helper.getAnswer().keySet().contains(question.getId())) {
-					if (question.getAnswer().equals(helper.getAnswer().get(question.getId()))) {
+					if (question.getAnswer().equalsIgnoreCase(helper.getAnswer().get(question.getId()))) {
 						obtainerMarks += question.getMarks();
 					}
 				}
