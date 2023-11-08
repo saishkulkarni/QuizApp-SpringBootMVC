@@ -5,14 +5,20 @@ import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import org.jsp.quiz.dao.StudentDao;
 import org.jsp.quiz.dto.Batch;
+import org.jsp.quiz.dto.DescriptiveQuestion;
+import org.jsp.quiz.dto.McqQuestion;
 import org.jsp.quiz.dto.QuizTest;
 import org.jsp.quiz.dto.Student;
+import org.jsp.quiz.dto.StudentResult;
+import org.jsp.quiz.dto.TrueFalseQuestion;
 import org.jsp.quiz.helper.AES;
+import org.jsp.quiz.helper.AnswerHelper;
 import org.jsp.quiz.helper.LoginHelper;
 import org.jsp.quiz.helper.SendMailLogic;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -235,18 +241,75 @@ public class StudentService {
 		if (batchs.isEmpty()) {
 			map.put("fail", "No Batch Selected");
 			return "StudentHome";
-		}
-		else {
-			List<QuizTest> quizTests=studentDao.fetchAllActiveTests(batchs.stream().map(x->x.getBatchCode()).toList());
-			if(quizTests.isEmpty())
-			{
+		} else {
+			List<QuizTest> quizTests = studentDao
+					.fetchAllActiveTests(batchs.stream().map(x -> x.getBatchCode()).toList());
+			if (quizTests.isEmpty()) {
 				map.put("fail", "No Active Tests Found");
 				return "StudentHome";
-			}
-			else {
+			} else {
 				map.put("tests", quizTests);
 				return "SelectTest";
 			}
+		}
+	}
+
+	public String startTest(int id, ModelMap map) {
+		QuizTest test = studentDao.findTestById(id);
+		if (test == null) {
+			map.put("fail", "Something went wrong");
+			return "index";
+		} else {
+			map.put("test", test);
+			return "Test";
+		}
+	}
+
+	public String submitTest(int id, AnswerHelper helper, ModelMap map, Student student, HttpSession session) {
+		QuizTest test = studentDao.findTestById(id);
+		if (test == null) {
+			map.put("fail", "Something went wrong");
+			return "index";
+		} else {
+			StudentResult result = new StudentResult();
+			result.setBatchCode(test.getBatchCode());
+			result.setTestName(test.getName());
+			result.setTotalMarks(test.getTotalMarks());
+			double obtainerMarks = 0;
+
+			for (McqQuestion question : test.getMcqs()) {
+				if (helper.getAnswer().keySet().contains(question.getId())) {
+					if (question.getAnswer().equals(helper.getAnswer().get(question.getId()))) {
+						obtainerMarks += question.getMarks();
+					}
+				}
+			}
+			for (TrueFalseQuestion question : test.getTrueFalseQuestions()) {
+				if (helper.getAnswer().keySet().contains(question.getId())) {
+					if ((question.isAnswer() + "").equals(helper.getAnswer().get(question.getId()))) {
+						obtainerMarks += question.getMarks();
+					}
+				}
+			}
+			for (DescriptiveQuestion question : test.getDescriptiveQuestions()) {
+				if (helper.getAnswer().keySet().contains(question.getId())) {
+					if (question.getAnswer().equals(helper.getAnswer().get(question.getId()))) {
+						obtainerMarks += question.getMarks();
+					}
+				}
+			}
+			result.setObtainedMarks(obtainerMarks);
+			result.setPercentage(obtainerMarks / test.getTotalMarks() * 100);
+
+			List<StudentResult> results = student.getResults();
+			if (results == null)
+				results = new ArrayList<StudentResult>();
+			results.add(result);
+			student.setResults(results);
+			studentDao.save(student);
+			session.setAttribute("student", student);
+			map.put("result", result);
+			return "StudentResult";
 		}
 	}
 

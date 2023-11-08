@@ -92,6 +92,17 @@ p.copyright {
 	text-align: right;
 	bottom: 0;
 }
+
+#back {
+	background-color:#B0926A;
+	color:black;
+	position: absolute;
+	left: 45%;
+	top: 40vh;
+	padding: 20px 40px 20px 40px;
+	font-size: 20px;
+	font-weight: bold;
+}
 </style>
 </head>
 <body>
@@ -135,7 +146,7 @@ p.copyright {
 			</tr>
 		</c:forEach>
 	</table>
-	<a href="/admin/home"><button>Back</button></a>
+	<a href="/admin/home"><button id="back">Back</button></a>
 	<footer>
 		<p class="copyright">©Saish</p>
 	</footer>

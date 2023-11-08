@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import org.jsp.quiz.dto.Student;
+import org.jsp.quiz.helper.AnswerHelper;
 import org.jsp.quiz.helper.LoginHelper;
 import org.jsp.quiz.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,6 +116,28 @@ public class StudentController {
 			return "index";
 		} else {
 			return studentService.showTest(student, session, map);
+		}
+	}
+
+	@GetMapping("/start-test/{id}")
+	public String startTest(@PathVariable int id, HttpSession session, ModelMap map) {
+		Student student = (Student) session.getAttribute("student");
+		if (student == null) {
+			map.put("fail", "Invalid Session");
+			return "index";
+		} else {
+			return studentService.startTest(id, map);
+		}
+	}
+
+	@PostMapping("/submit-test/{id}")
+	public String submitTest(@PathVariable int id, AnswerHelper helper, ModelMap map, HttpSession session) {
+		Student student = (Student) session.getAttribute("student");
+		if (student == null) {
+			map.put("fail", "Invalid Session");
+			return "index";
+		} else {
+			return studentService.submitTest(id, helper, map, student, session);
 		}
 	}
 

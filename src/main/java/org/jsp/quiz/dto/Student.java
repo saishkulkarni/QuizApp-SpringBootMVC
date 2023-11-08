@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Email;
@@ -52,4 +53,7 @@ public class Student {
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	List<Batch> batchs;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	List<StudentResult> results;
 }

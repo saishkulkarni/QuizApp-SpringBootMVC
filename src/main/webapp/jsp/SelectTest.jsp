@@ -8,10 +8,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-<c:forEach var="test" items="${tests}">
+	<c:forEach var="test" items="${tests}">
 Test Id:${test.id}<br>
 Test Name:${test.name}<br>
-<button>Start</button><br>
-</c:forEach>
+		<a href="/student/start-test/${test.id}"><button>Start</button></a>
+		<br>
+	</c:forEach>
+	.
 </body>
 </html>

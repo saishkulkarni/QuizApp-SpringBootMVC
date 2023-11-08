@@ -7,11 +7,109 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Admin Fetch Students</title>
+<style type="text/css">
+body {
+	margin: 0;
+	padding: 0;
+	background-image: url("/images/bg1.jpg");
+	background-size: cover;
+}
+
+header {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+h1 {
+	font-size: 48px;
+	color: #333;
+}
+
+h2 {
+	font-size: 30px;
+	color: #A2FF86;
+	margin: 10px 0;
+}
+
+h3 {
+	font-size: 30px;
+	color: #F94C10;
+	margin: 10px 0;
+}
+
+table {
+	width: 90%;
+	border-collapse: collapse;
+	margin: 0 auto;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+	mix-blend-mode: luminosity;
+}
+
+th, td {
+	text-align: center;
+	padding: 10px;
+	border: 1px solid #ddd;
+}
+
+th {
+	background-color: #007bff;
+	color: #fff;
+}
+
+tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+img {
+	max-width: 100px;
+	max-height: 100px;
+}
+
+button {
+	padding: 5px 10px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+button:hover {
+	background-color: #0056b3;
+}
+
+@media ( min-width : 768px) {
+	.button {
+		padding: 0.3em 0.9em;
+	}
+}
+
+p.copyright {
+	position: absolute;
+	width: 95%;
+	color: black;
+	font-size: 20px;
+	text-align: right;
+	bottom: 0;
+}
+
+#back {
+	background-color: #B0926A;
+	color: black;
+	position: absolute;
+	left: 45%;
+	top: 40vh;
+	padding: 20px 40px 20px 40px;
+	font-size: 20px;
+	font-weight: bold;
+}
+</style>
 </head>
 <body>
 	<header>
 		<h2>${pass}</h2>
 		<h3>${fail}</h3>
+		<h1>All Student Details</h1>
 	</header>
 	<table border="1">
 		<tr>
@@ -27,24 +125,41 @@
 
 		<c:forEach var="student" items="${students}">
 			<tr>
-				<th>${student.getId()}</th>
-				<th>${student.getName()}</th>
-				<th><img
+				<td>${student.getId()}</td>
+				<td>${student.getName()}</td>
+				<td><img
 					src="data:image/jpeg;base64,${Base64.encodeBase64String(student.getPicture())}">
-				</th>
-				<th>${student.getEmail()}</th>
-				<th>${student.getMobile()}</th>
-				<th>${student.getGender()}</th>
-				<th><c:if test="${student.isApproved()}">
+				</td>
+				<td>${student.getEmail()}</td>
+				<td>${student.getMobile()}</td>
+				<td>${student.getGender()}</td>
+				<td><c:if test="${student.isApproved()}">
 				Approved
 				</c:if> <c:if test="${!student.isApproved()}">
 				Not Approved
-				</c:if></th>
-				<th><a href="/admin/student/change-status/${student.getId()}"><button>Change
-							Status</button></a></th>
+				</c:if></td>
+				<td><a href="/admin/student/change-status/${student.getId()}"><button>Change
+							Status</button></a></td>
 			</tr>
-		</c:forEach>
 
+		</c:forEach>
 	</table>
+
+	<a href="/admin/home"><button id="back">Back</button></a>
+	<footer>
+		<p class="copyright">©Saish</p>
+	</footer>
+
+	<script>
+		setTimeout(function() {
+			var h2 = document.querySelector('h2');
+			var h3 = document.querySelector('h3');
+
+			if (h2 && h3) {
+				h2.style.display = 'none';
+				h3.style.display = 'none';
+			}
+		}, 1000);
+	</script>
 </body>
 </html>

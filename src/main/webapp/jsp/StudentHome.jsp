@@ -5,17 +5,125 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<style>
+body {
+	margin: 0;
+	padding: 0;
+	background-image: url("../images/bg1.jpg");
+	background-size: cover;
+}
+
+.container {
+	max-width: 1500px;
+	margin: 0 auto;
+	padding: 20px;
+	border-radius: 15px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+	margin: 0 auto;
+}
+
+header {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+h1 {
+	font-size: 48px;
+	color: #333;
+}
+
+h2 {
+	font-size: 30px;
+	color: #A2FF86;
+	margin: 10px 0;
+}
+
+h3 {
+	font-size: 30px;
+	color: #F94C10;
+	margin: 10px 0;
+}
+
+main {
+	text-align: center;
+}
+
+.buttons {
+	margin: 20px 0;
+}
+
+.button {
+	font-family: "Open Sans", sans-serif;
+	margin: 5px;
+	font-size: 20px;
+	letter-spacing: 2px;
+	color: #000;
+	padding: 0.35em 0.8em;
+	box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px
+		0px 0px, 5px 5px 0px 0px;
+	position: relative;
+	user-select: none;
+	-webkit-user-select: none;
+	touch-action: manipulation;
+	text-decoration: none;
+	text-transform: uppercase;
+	cursor: pointer;
+	border: 5px solid;
+	color: #000;
+	font-size: 20px;
+}
+
+.button:active {
+	box-shadow: 0px 0px 0px 0px;
+	top: 5px;
+	left: 5px;
+}
+
+@media ( min-width : 768px) {
+	.button {
+		padding: 0.3em 0.9em;
+	}
+}
+
+p.copyright {
+	position: absolute;
+	width: 95%;
+	color: black;
+	font-size: 20px;
+	text-align: right;
+	bottom: 0;
+}
+</style>
 </head>
 <body>
-${pass}${fail}
-	<h1>Student Home</h1>
-	<a href="/student/add-batchcode"><button>Select Batch Code</button></a>
-	<br><br>
-	<a href="/student/show-test"><button>Take Test</button></a>
-	<br><br>
-	<a href=""><button>View Previous Test Results</button></a>
-	<br><br>
-	<a href="/logout"><button>Logout</button></a>
-	<br><br>
+	<div class="container">
+		<header>
+			<h2>${pass}</h2>
+			<h3>${fail}</h3>
+			<h1>Student Home</h1>
+		</header>
+		<main>
+			<div class="buttons">
+				<a href="/student/add-batchcode" class="button">Select Batch Code</a><a
+					href="/student/show-test" class="button">Take Test</a><a href="" class="button">View Previous
+					Test Results</a><a href="/logout" class="button">Logout</a> <br>
+			</div>
+		</main>
+	</div>
+	<footer>
+		<p class="copyright">©Saish</p>
+	</footer>
+	<script>
+		setTimeout(function() {
+			var h2 = document.querySelector('h2');
+			var h3 = document.querySelector('h3');
+
+			if (h2 && h3) {
+				h2.style.display = 'none';
+				h3.style.display = 'none';
+			}
+		}, 1000);
+	</script>
+
 </body>
 </html>
