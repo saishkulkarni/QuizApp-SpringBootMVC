@@ -14,6 +14,7 @@ Test Name:${test.name}<br>
 		<a href="/student/start-test/${test.id}"><button>Start</button></a>
 		<br>
 	</c:forEach>
-	.
+	
+	<a href="/student/home"><button id="back">Back</button></a>
 </body>
 </html>

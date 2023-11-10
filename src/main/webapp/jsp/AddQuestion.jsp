@@ -101,6 +101,7 @@ input[type="submit"] {
 
 		<input type="submit" value="Submit">
 	</form>
+	<a href="/trainer/home"><button>Back</button></a>
 
 	<script>
 		function showQuestionForm() {

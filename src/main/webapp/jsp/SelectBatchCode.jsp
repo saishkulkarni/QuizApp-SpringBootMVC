@@ -15,5 +15,7 @@ ${fail}
 		</c:forEach>
 		<button>Submit</button>
 	</form>
+	
+	<a href="/student/home"><button id="back">Back</button></a>
 </body>
 </html>

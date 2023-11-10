@@ -15,6 +15,7 @@ import org.jsp.quiz.dto.DescriptiveQuestion;
 import org.jsp.quiz.dto.McqQuestion;
 import org.jsp.quiz.dto.QuizTest;
 import org.jsp.quiz.dto.Student;
+import org.jsp.quiz.dto.StudentQuestions;
 import org.jsp.quiz.dto.StudentResult;
 import org.jsp.quiz.dto.TrueFalseQuestion;
 import org.jsp.quiz.helper.AES;
@@ -271,45 +272,86 @@ public class StudentService {
 			map.put("fail", "Something went wrong");
 			return "index";
 		} else {
-			StudentResult result = new StudentResult();
-			result.setBatchCode(test.getBatchCode());
-			result.setTestName(test.getName());
-			result.setTotalMarks(test.getTotalMarks());
-			double obtainerMarks = 0;
-
-			for (McqQuestion question : test.getMcqs()) {
-				if (helper.getAnswer().keySet().contains(question.getId())) {
-					if (question.getAnswer().equals(helper.getAnswer().get(question.getId()))) {
-						obtainerMarks += question.getMarks();
-					}
-				}
-			}
-			for (TrueFalseQuestion question : test.getTrueFalseQuestions()) {
-				if (helper.getAnswer().keySet().contains(question.getId())) {
-					if ((question.isAnswer() + "").equals(helper.getAnswer().get(question.getId()))) {
-						obtainerMarks += question.getMarks();
-					}
-				}
-			}
-			for (DescriptiveQuestion question : test.getDescriptiveQuestions()) {
-				if (helper.getAnswer().keySet().contains(question.getId())) {
-					if (question.getAnswer().equalsIgnoreCase(helper.getAnswer().get(question.getId()))) {
-						obtainerMarks += question.getMarks();
-					}
-				}
-			}
-			result.setObtainedMarks(obtainerMarks);
-			result.setPercentage(obtainerMarks / test.getTotalMarks() * 100);
-
 			List<StudentResult> results = student.getResults();
-			if (results == null)
-				results = new ArrayList<StudentResult>();
-			results.add(result);
-			student.setResults(results);
-			studentDao.save(student);
-			session.setAttribute("student", student);
-			map.put("result", result);
-			return "StudentResult";
+			boolean flag = true;
+			if (results != null) {
+				for (StudentResult result : results) {
+					if (result.getTestId() == id) {
+						flag = false;
+					}
+				}
+			}
+			if (flag) {
+				StudentResult result = new StudentResult();
+				result.setTestId(id);
+				result.setBatchCode(test.getBatchCode());
+				result.setTestName(test.getName());
+				result.setTotalMarks(test.getTotalMarks());
+				double obtainerMarks = 0;
+
+				List<StudentQuestions> questions = new ArrayList<StudentQuestions>();
+
+				for (McqQuestion question : test.getMcqs()) {
+					if (helper.getAnswer().keySet().contains(question.getId())) {
+
+						StudentQuestions question1 = new StudentQuestions();
+						question1.setQuestion(question.getQuestion());
+						question1.setCorrectAnswer(question.getAnswer());
+						question1.setStudentAnswer(helper.getAnswer().get(question.getId()));
+
+						if (question.getAnswer().equals(helper.getAnswer().get(question.getId()))) {
+							question1.setStudentAnswer(helper.getAnswer().get(question.getId()));
+							obtainerMarks += question.getMarks();
+							question1.setMarks(question.getMarks());
+						}
+						questions.add(question1);
+					}
+				}
+				for (TrueFalseQuestion question : test.getTrueFalseQuestions()) {
+					if (helper.getAnswer().keySet().contains(question.getId())) {
+						StudentQuestions question1 = new StudentQuestions();
+						question1.setQuestion(question.getQuestion());
+						question1.setCorrectAnswer(question.isAnswer() + "");
+						question1.setStudentAnswer(helper.getAnswer().get(question.getId()));
+
+						if ((question.isAnswer() + "").equals(helper.getAnswer().get(question.getId()))) {
+							obtainerMarks += question.getMarks();
+							question1.setMarks(question.getMarks());
+						}
+						questions.add(question1);
+					}
+				}
+				for (DescriptiveQuestion question : test.getDescriptiveQuestions()) {
+					if (helper.getAnswer().keySet().contains(question.getId())) {
+						StudentQuestions question1 = new StudentQuestions();
+						question1.setQuestion(question.getQuestion());
+						question1.setCorrectAnswer(question.getAnswer());
+						question1.setStudentAnswer(helper.getAnswer().get(question.getId()));
+
+						if (question.getAnswer().equalsIgnoreCase(helper.getAnswer().get(question.getId()))) {
+							obtainerMarks += question.getMarks();
+							question1.setMarks(question.getMarks());
+						}
+						questions.add(question1);
+					}
+				}
+				result.setObtainedMarks(obtainerMarks);
+				result.setPercentage(obtainerMarks / test.getTotalMarks() * 100);
+				result.setQuestions(questions);
+
+				List<StudentResult> results1 = student.getResults();
+				if (results1 == null)
+					results1 = new ArrayList<StudentResult>();
+				results1.add(result);
+				student.setResults(results1);
+				studentDao.save(student);
+				session.setAttribute("student", student);
+				map.put("result", result);
+				return "StudentResult";
+			} else {
+				map.put("fail", "You have Already Taken Test");
+				return "StudentHome";
+			}
 		}
 	}
 

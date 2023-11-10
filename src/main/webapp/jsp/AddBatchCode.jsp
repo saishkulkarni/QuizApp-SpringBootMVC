@@ -11,5 +11,6 @@
 		Enter Batch Code:<input type="text" name="batchCode">
 		<button>Create</button>
 	</form>
+	<a href="/trainer/home"><button>Back</button></a>
 </body>
 </html>

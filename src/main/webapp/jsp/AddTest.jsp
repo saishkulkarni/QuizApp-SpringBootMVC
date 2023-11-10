@@ -22,5 +22,6 @@
 		Enter Duration in Minutes:<input type="number" name="duration"><br>
 		<button>Add</button>
 	</form>
+	<a href="/trainer/home"><button>Back</button></a>
 </body>
 </html>

@@ -20,6 +20,7 @@
 	<br> Total Marks:${result.totalMarks}
 	<br> Obtained Marks:${result.obtainedMarks}
 	<br>Percentage:${result.percentage}
-
+<br>
+	<a href="/student/home"><button id="back">Back</button></a>
 </body>
 </html>

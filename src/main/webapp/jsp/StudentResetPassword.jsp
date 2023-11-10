@@ -13,5 +13,7 @@
 		New Password:<input type="password" name="password">
 		<button>Reset</button>
 	</form>
+	
+	<a href="/student/home"><button id="back">Back</button></a>
 </body>
 </html>
