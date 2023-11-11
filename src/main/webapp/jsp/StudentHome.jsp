@@ -105,7 +105,7 @@ p.copyright {
 		<main>
 			<div class="buttons">
 				<a href="/student/add-batchcode" class="button">Select Batch Code</a><a
-					href="/student/show-test" class="button">Take Test</a><a href="" class="button">View Previous
+					href="/student/show-test" class="button">Take Test</a><a href="/student/view-result" class="button">View Previous
 					Test Results</a><a href="/logout" class="button">Logout</a> <br>
 			</div>
 		</main>

@@ -355,4 +355,17 @@ public class StudentService {
 		}
 	}
 
+	public String viewResult(ModelMap map, HttpSession session, Student student) {
+		List<StudentResult> results=student.getResults();
+		if(results.isEmpty())
+		{
+		map.put("fail", "Not Taken Any Test Yet");
+		return "StudentHome";
+		}
+		else {
+			map.put("results", results);
+			return "ViewStudentResults";
+		}
+	}
+
 }

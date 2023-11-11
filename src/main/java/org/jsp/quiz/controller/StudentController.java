@@ -151,4 +151,16 @@ public class StudentController {
 			return "StudentHome";
 		}
 	}
+	
+	@GetMapping("/view-result")
+	public String viewResult(HttpSession session,ModelMap map)
+	{
+		Student student = (Student) session.getAttribute("student");
+		if (student == null) {
+			map.put("fail", "Invalid Session");
+			return "index";
+		} else {
+			return studentService.viewResult(map,session,student);
+		}
+	}
 }
