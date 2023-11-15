@@ -197,4 +197,16 @@ public class TrainerController {
 		}
 	}
 	
+	@GetMapping("/fetch-results")
+	public String viewResults(HttpSession session, ModelMap map)
+	{
+		Trainer trainer = (Trainer) session.getAttribute("trainer");
+		if (trainer == null) {
+			map.put("fail", "Invalid Session");
+			return "index";
+		} else {
+			return trainerService.viewResult(session, map);
+		}
+	}
+	
 }

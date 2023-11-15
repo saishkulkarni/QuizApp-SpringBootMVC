@@ -264,4 +264,15 @@ public class TrainerService {
 		}
 	}
 
+	public String viewResult(HttpSession session, ModelMap map) {
+		List<Batch> batchs = trainerDao.fetchAllBatchCodes();
+		if (batchs.isEmpty()) {
+			map.put("fail", "No Batches Enrolled Yet");
+			return "TrainerHome";
+		} else {
+			map.put("batchs", batchs);
+			return "SeeTrainerResult";
+		}
+	}
+
 }

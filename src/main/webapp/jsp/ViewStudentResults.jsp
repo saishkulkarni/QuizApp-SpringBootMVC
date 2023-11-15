@@ -110,6 +110,8 @@ p.copyright {
 		<h3>${fail}</h3>
 		<h1>All Student Details</h1>
 	</header>
+
+	<br>
 	<table border="1">
 		<tr>
 			<th>Test Name</th>
@@ -119,9 +121,10 @@ p.copyright {
 			<th>Percentage</th>
 			<th>See Answers</th>
 		</tr>
-
 		<c:forEach var="result" items="${results}">
 			<tr>
+				<c:set var="questions" value="${result.questions}"
+					scope="application"></c:set>
 				<td>${result.testName}</td>
 				<td>${result.batchCode}</td>
 				<td>${result.totalMarks}</td>
@@ -132,27 +135,25 @@ p.copyright {
 
 		</c:forEach>
 	</table>
-	<br>
 	<div id="answersDiv" style="display: none;">
-	<table border="1">
-		<tr>
-			<th>Question</th>
-			<th>Students Answer</th>
-			<th>Correct Answer</th>
-			<th>Obtained Marks</th>
+		<table border="1">
+			<tr>
+				<th>Question</th>
+				<th>Students Answer</th>
+				<th>Correct Answer</th>
+				<th>Obtained Marks</th>
 			</tr>
 
-		<c:forEach var="question" items="">
-			<tr>
-				<td>${question.question}</td>
-				<td>${question.studentAnswer}</td>
-				<td>${question.correctAnswer}</td>
-				<td>${question.marks}</td>
-			</tr>
-		</c:forEach>
-	</table>
+			<c:forEach var="question" items="${questions}">
+				<tr>
+					<td>${question.question}</td>
+					<td>${question.studentAnswer}</td>
+					<td>${question.correctAnswer}</td>
+					<td>${question.marks}</td>
+				</tr>
+			</c:forEach>
+		</table>
 	</div>
-	
 	<a href="/student/home"><button id="back">Back</button></a>
 
 	<footer>
