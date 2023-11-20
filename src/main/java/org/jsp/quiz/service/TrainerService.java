@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.jsp.quiz.dao.StudentDao;
 import org.jsp.quiz.dao.TrainerDao;
 import org.jsp.quiz.dto.Batch;
 import org.jsp.quiz.dto.DescriptiveQuestion;
 import org.jsp.quiz.dto.McqQuestion;
 import org.jsp.quiz.dto.QuizTest;
+import org.jsp.quiz.dto.StudentResult;
 import org.jsp.quiz.dto.Trainer;
 import org.jsp.quiz.dto.TrueFalseQuestion;
 import org.jsp.quiz.helper.AES;
@@ -33,6 +35,9 @@ public class TrainerService {
 
 	@Autowired
 	SendMailLogic mailLogic;
+
+	@Autowired
+	StudentDao studentDao;
 
 	public String signup(@Valid Trainer trainer, MultipartFile pic, ModelMap map)
 			throws IOException, MessagingException {
@@ -272,6 +277,34 @@ public class TrainerService {
 		} else {
 			map.put("batchs", batchs);
 			return "SeeTrainerResult";
+		}
+	}
+
+	public String viewBatchResult(HttpSession session, ModelMap map, String batchCode) {
+		Batch batch = trainerDao.findById(batchCode);
+		if (batch == null) {
+			map.put("fail", "Something went Wrong");
+			return "index";
+		} else {
+			List<QuizTest> quizTests = batch.getTests();
+			if (quizTests.isEmpty()) {
+				map.put("fail", "No Tests Created Yet");
+				return viewResult(session, map);
+			} else {
+				map.put("list", quizTests);
+				return "SelectResultTest";
+			}
+		}
+	}
+
+	public String viewTestStudents(HttpSession session, ModelMap map, String name) {
+		List<StudentResult> results = studentDao.fetchResults(name);
+		if (results.isEmpty()) {
+			map.put("fail", "No Student have taken the Test Yet");
+			return viewResult(session, map);
+		} else {
+			map.put("results", results);
+			return "ViewTestStudents";
 		}
 	}
 

@@ -163,4 +163,16 @@ public class StudentController {
 			return studentService.viewResult(map,session,student);
 		}
 	}
+	
+	@GetMapping("/test/questions/{id}")
+	public String seeQuestions(@PathVariable int id,HttpSession session,ModelMap map)
+	{
+		Student student = (Student) session.getAttribute("student");
+		if (student == null) {
+			map.put("fail", "Invalid Session");
+			return "index";
+		} else {
+			return studentService.viewTestQuestions(map,session,id);
+		}
+	}
 }

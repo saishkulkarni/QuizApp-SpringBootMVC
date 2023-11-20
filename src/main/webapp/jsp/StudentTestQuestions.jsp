@@ -1,12 +1,9 @@
-<%@page import="org.apache.commons.codec.binary.Base64"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>View Result</title>
 <style type="text/css">
 body {
 	margin: 0;
@@ -103,38 +100,30 @@ p.copyright {
 	font-weight: bold;
 }
 </style>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
 </head>
 <body>
-	<header>
-		<h2>${pass}</h2>
-		<h3>${fail}</h3>
-		<h1>All Student Details</h1>
-	</header>
-
-	<br>
-	<table border="1">
-		<tr>
-			<th>Test Name</th>
-			<th>Batch Code</th>
-			<th>Total Marks</th>
-			<th>Obtained Marks</th>
-			<th>Percentage</th>
-			<th>See Answers</th>
-		</tr>
-		<c:forEach var="result" items="${results}">
+	<div id="answersDiv">
+		<table border="1">
 			<tr>
-				<td>${result.testName}</td>
-				<td>${result.batchCode}</td>
-				<td>${result.totalMarks}</td>
-				<td>${result.obtainedMarks}</td>
-				<td>${result.percentage}</td>
-				<td><a href="/student/test/questions/${result.id}"><button>Click</button></a></td>
+				<th>Question</th>
+				<th>Students Answer</th>
+				<th>Correct Answer</th>
+				<th>Obtained Marks</th>
 			</tr>
 
-		</c:forEach>
-	</table>
-	
-	<a href="/student/home"><button id="back">Back</button></a>
+			<c:forEach var="question" items="${questions}">
+				<tr>
+					<td>${question.question}</td>
+					<td>${question.studentAnswer}</td>
+					<td>${question.correctAnswer}</td>
+					<td>${question.marks}</td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
+	<a href="/student/view-result"><button id="back">Back</button></a>
 
 	<footer>
 		<p class="copyright">©Saish</p>

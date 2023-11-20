@@ -338,11 +338,13 @@ public class StudentService {
 				result.setObtainedMarks(obtainerMarks);
 				result.setPercentage(obtainerMarks / test.getTotalMarks() * 100);
 				result.setQuestions(questions);
+				result.setStudent(student);
 
 				List<StudentResult> results1 = student.getResults();
 				if (results1 == null)
 					results1 = new ArrayList<StudentResult>();
 				results1.add(result);
+
 				student.setResults(results1);
 				studentDao.save(student);
 				session.setAttribute("student", student);
@@ -356,16 +358,20 @@ public class StudentService {
 	}
 
 	public String viewResult(ModelMap map, HttpSession session, Student student) {
-		List<StudentResult> results=student.getResults();
-		if(results.isEmpty())
-		{
-		map.put("fail", "Not Taken Any Test Yet");
-		return "StudentHome";
-		}
-		else {
+		List<StudentResult> results = student.getResults();
+		if (results.isEmpty()) {
+			map.put("fail", "Not Taken Any Test Yet");
+			return "StudentHome";
+		} else {
 			map.put("results", results);
 			return "ViewStudentResults";
 		}
+	}
+
+	public String viewTestQuestions(ModelMap map, HttpSession session, int id) {
+		StudentResult result = studentDao.findResult(id);
+		map.put("questions", result.getQuestions());
+		return "StudentTestQuestions";
 	}
 
 }

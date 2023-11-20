@@ -71,4 +71,12 @@ public class StudentDao {
 	public void save(StudentResult result) {
 		resultRepository.save(result);
 	}
+
+	public StudentResult findResult(int id) {
+		return resultRepository.findById(id).orElse(null);
+	}
+
+	public List<StudentResult> fetchResults(String name) {
+		return resultRepository.findByTestName(name);
+	}
 }

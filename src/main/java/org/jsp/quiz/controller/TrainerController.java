@@ -209,4 +209,28 @@ public class TrainerController {
 		}
 	}
 	
+	@GetMapping("/batch/tests")
+	public String fetchResults(@RequestParam String batchCode,HttpSession session,ModelMap map)
+	{
+		Trainer trainer = (Trainer) session.getAttribute("trainer");
+		if (trainer == null) {
+			map.put("fail", "Invalid Session");
+			return "index";
+		} else {
+			return trainerService.viewBatchResult(session, map,batchCode);
+		}
+	}
+	
+	@GetMapping("/batch/result")
+	public String fetchStudents(HttpSession session,ModelMap map,@RequestParam String name)
+	{
+		Trainer trainer = (Trainer) session.getAttribute("trainer");
+		if (trainer == null) {
+			map.put("fail", "Invalid Session");
+			return "index";
+		} else {
+			return trainerService.viewTestStudents(session, map,name);
+		}
+	}
+	
 }
