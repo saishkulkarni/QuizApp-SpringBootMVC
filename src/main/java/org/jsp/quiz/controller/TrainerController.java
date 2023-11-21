@@ -7,6 +7,7 @@ import org.jsp.quiz.dto.Batch;
 import org.jsp.quiz.dto.DescriptiveQuestion;
 import org.jsp.quiz.dto.McqQuestion;
 import org.jsp.quiz.dto.QuizTest;
+import org.jsp.quiz.dto.Student;
 import org.jsp.quiz.dto.Trainer;
 import org.jsp.quiz.dto.TrueFalseQuestion;
 import org.jsp.quiz.helper.LoginHelper;
@@ -209,7 +210,7 @@ public class TrainerController {
 		}
 	}
 	
-	@GetMapping("/batch/tests")
+	@PostMapping("/batch/tests")
 	public String fetchResults(@RequestParam String batchCode,HttpSession session,ModelMap map)
 	{
 		Trainer trainer = (Trainer) session.getAttribute("trainer");
@@ -221,7 +222,7 @@ public class TrainerController {
 		}
 	}
 	
-	@GetMapping("/batch/result")
+	@PostMapping("/batch/result")
 	public String fetchStudents(HttpSession session,ModelMap map,@RequestParam String name)
 	{
 		Trainer trainer = (Trainer) session.getAttribute("trainer");
@@ -230,6 +231,18 @@ public class TrainerController {
 			return "index";
 		} else {
 			return trainerService.viewTestStudents(session, map,name);
+		}
+	}
+	
+	@GetMapping("/test/questions/{id}")
+	public String seeQuestions(@PathVariable int id,HttpSession session,ModelMap map)
+	{
+		Trainer trainer = (Trainer) session.getAttribute("trainer");
+		if (trainer == null) {
+			map.put("fail", "Invalid Session");
+			return "index";
+		} else {
+			return trainerService.viewTestQuestions(map,session,id);
 		}
 	}
 	

@@ -123,7 +123,7 @@ p.copyright {
 			</c:forEach>
 		</table>
 	</div>
-	<a href="/student/view-result"><button id="back">Back</button></a>
+	<a href="/trainer/fetch-results"><button id="back">Back</button></a>
 
 	<footer>
 		<p class="copyright">©Saish</p>

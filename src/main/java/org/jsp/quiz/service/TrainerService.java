@@ -308,4 +308,10 @@ public class TrainerService {
 		}
 	}
 
+	public String viewTestQuestions(ModelMap map, HttpSession session, int id) {
+		StudentResult result = studentDao.findResult(id);
+		map.put("questions", result.getQuestions());
+		return "TrainerStudentTestQuestions";
+	}
+
 }

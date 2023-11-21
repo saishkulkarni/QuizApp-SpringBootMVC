@@ -16,8 +16,9 @@
 <title>Result</title>
 </head>
 <body>
-	<form action="/trainer/batch/tests">
-		Select Batch: <select name="batchCode" >
+${fail }
+	<form action="/trainer/batch/tests" method="post">
+		Select Batch: <select name="batchCode">
 			<c:forEach var="batch" items="${batchs}">
 				<option>${batch.batchCode}</option>
 			</c:forEach>

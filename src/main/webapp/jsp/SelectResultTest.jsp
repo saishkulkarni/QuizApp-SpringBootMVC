@@ -8,7 +8,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="/trainer/batch/result">
+${fail }
+<form action="/trainer/batch/result" method="post">
 		Select Quiz: <select name="name" >
 			<c:forEach var="quiz" items="${list}">
 				<option>${quiz.name}</option>
